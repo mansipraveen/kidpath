@@ -1,219 +1,1107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>KidPath - Find Their Spark</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #FFFBF0; min-height: 100vh; max-width: 480px; margin: 0 auto; }
-        .hero { background: #6C63FF; padding: 40px 20px 30px; text-align: center; border-radius: 0 0 30px 30px; }
-        .hero h1 { font-size: 38px; color: #fff; }
-        .hero p { color: #E8E6FF; margin-top: 8px; font-size: 15px; }
-        .hero .tag { font-size: 12px; color: #C8C3FF; margin-top: 8px; background: rgba(255,255,255,0.15); display: inline-block; padding: 4px 12px; border-radius: 12px; }
-        .mascots { font-size: 36px; animation: bounce 1.2s ease infinite; }
-        @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        .welcome { padding: 20px; }
-        .speech { background: #fff; border: 2px solid #FFD93D; border-radius: 16px; padding: 16px; text-align: center; margin-bottom: 16px; font-size: 16px; color: #333; line-height: 1.4; }
-        .label { font-size: 15px; font-weight: 600; color: #333; margin: 14px 0 8px; }
-        .input { width: 100%; background: #fff; border: 2px solid #E8E8E8; border-radius: 16px; padding: 14px; font-size: 16px; outline: none; }
-        .input:focus { border-color: #6C63FF; }
-        .btn { width: 100%; padding: 16px; border: none; border-radius: 16px; font-size: 17px; font-weight: bold; color: #fff; cursor: pointer; margin-top: 20px; }
-        .btn-red { background: #FF6B6B; }
-        .btn-green { background: #4CAF50; }
-        .btn-purple { background: #6C63FF; }
-        .cities { text-align: center; padding: 20px; color: #888; font-size: 12px; }
-        .cities strong { color: #666; font-size: 14px; display: block; margin-bottom: 6px; }
-        .back { padding: 16px; padding-top: 20px; }
-        .back a { color: #6C63FF; font-weight: 600; text-decoration: none; font-size: 15px; cursor: pointer; }
-        .form-header { background: #A855F7; padding: 20px; padding-top: 30px; text-align: center; border-radius: 0 0 25px 25px; }
-        .form-header h2 { color: #fff; font-size: 20px; margin-top: 8px; }
-        .form-section { padding: 16px; }
-        .chips { display: flex; flex-wrap: wrap; }
-        .chip { padding: 10px 14px; border-radius: 20px; background: #fff; border: 2px solid #E8E8E8; margin: 4px; cursor: pointer; font-size: 13px; display: flex; align-items: center; }
-        .chip.active-red { background: #FF6B6B; border-color: #FF6B6B; color: #fff; }
-        .chip.active-purple { background: #A855F7; border-color: #A855F7; color: #fff; }
-        .chip.active-blue { background: #3B82F6; border-color: #3B82F6; color: #fff; }
-        .chip.active-pink { background: #EC4899; border-color: #EC4899; color: #fff; }
-        .chip.active-teal { background: #14B8A6; border-color: #14B8A6; color: #fff; }
-        .chip.active-amber { background: #F59E0B; border-color: #F59E0B; color: #fff; }
-        .area-opt { padding: 12px; border-radius: 12px; background: #fff; border: 2px solid #E8E8E8; margin-bottom: 6px; cursor: pointer; font-size: 14px; }
-        .area-opt.active { background: #F59E0B; border-color: #F59E0B; color: #fff; font-weight: bold; }
-        .result-banner { display: flex; align-items: center; padding: 16px; }
-        .result-banner .mascot { font-size: 28px; margin-right: 8px; animation: bounce 1.2s ease infinite; }
-        .result-banner h3 { font-size: 16px; color: #333; }
-        .empty { text-align: center; padding: 30px; }
-        .empty .emoji { font-size: 50px; }
-        .empty p { color: #666; margin-top: 10px; }
-        .empty .hint { color: #888; font-size: 14px; margin-top: 6px; }
-        .card { background: #fff; border-radius: 16px; padding: 14px; margin: 0 16px 12px; border-left: 5px solid #ccc; cursor: pointer; }
-        .card-top { display: flex; align-items: center; }
-        .card-emoji { font-size: 28px; margin-right: 10px; }
-        .card-title { font-size: 15px; font-weight: bold; color: #333; }
-        .card-sub { font-size: 12px; color: #888; }
-        .card-price { font-size: 15px; font-weight: bold; margin-left: auto; }
-        .card-info { font-size: 12px; color: #666; margin-top: 6px; }
-        .card-desc { font-size: 13px; color: #555; margin-top: 4px; }
-        .detail-head { background: #FF6B6B; padding: 20px; text-align: center; border-radius: 0 0 25px 25px; }
-        .detail-head .emoji { font-size: 50px; }
-        .detail-head h2 { color: #fff; margin-top: 8px; font-size: 22px; }
-        .detail-head .sub { color: rgba(255,255,255,0.85); font-size: 15px; margin-top: 3px; }
-        .detail-head .badge { background: rgba(255,255,255,0.25); display: inline-block; padding: 4px 12px; border-radius: 12px; color: #fff; font-size: 13px; margin-top: 8px; }
-        .info-row { display: flex; padding: 12px; }
-        .info-box { flex: 1; border-radius: 12px; padding: 12px; text-align: center; margin: 0 4px; }
-        .info-box.orange { background: #FFF3E0; }
-        .info-box.green { background: #E8F5E9; }
-        .info-box.blue { background: #E3F2FD; }
-        .info-box .icon { font-size: 20px; }
-        .info-box .val { font-size: 15px; font-weight: bold; color: #333; margin-top: 4px; }
-        .section { padding: 14px; }
-        .section h3 { font-size: 16px; font-weight: bold; color: #333; margin-bottom: 5px; }
-        .section p { font-size: 14px; color: #555; line-height: 1.5; }
-        .hidden { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>KidPath - Find Perfect Activities for Your Child</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #FFFBF0;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+}
+.app {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  background: #FFFBF0;
+  position: relative;
+  overflow-x: hidden;
+}
+.screen { display: none; padding: 24px 20px; min-height: 100vh; }
+.screen.active { display: block; }
+
+/* Typography */
+h1 { font-size: 28px; font-weight: 800; color: #2D2D2D; }
+h2 { font-size: 22px; font-weight: 700; color: #2D2D2D; margin-bottom: 16px; }
+h3 { font-size: 18px; font-weight: 700; color: #2D2D2D; }
+p { color: #555; line-height: 1.5; }
+.subtitle { color: #777; font-size: 14px; margin-top: 4px; }
+
+/* Welcome Screen */
+.welcome-header { text-align: center; padding-top: 40px; }
+.mascot { font-size: 80px; animation: bounce 2s infinite; display: block; margin-bottom: 16px; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.welcome-header h1 { color: #6C63FF; font-size: 36px; margin-bottom: 8px; }
+.welcome-header p { font-size: 16px; color: #666; margin-bottom: 32px; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; color: #444; margin-bottom: 8px; font-size: 14px; }
+.form-group input, .form-group select {
+  width: 100%; padding: 14px 16px; border: 2px solid #E8E4FF;
+  border-radius: 12px; font-size: 16px; background: #fff;
+  transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group select:focus {
+  outline: none; border-color: #6C63FF;
+}
+.btn-primary {
+  width: 100%; padding: 16px; background: #6C63FF; color: #fff;
+  border: none; border-radius: 14px; font-size: 17px; font-weight: 700;
+  cursor: pointer; transition: transform 0.1s, background 0.2s;
+}
+.btn-primary:hover { background: #5A52E0; }
+.btn-primary:active { transform: scale(0.97); }
+.btn-secondary {
+  width: 100%; padding: 14px; background: #fff; color: #6C63FF;
+  border: 2px solid #6C63FF; border-radius: 14px; font-size: 16px;
+  font-weight: 600; cursor: pointer; margin-top: 12px;
+}
+
+/* Preferences Screen */
+.prefs-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+.back-btn {
+  width: 36px; height: 36px; border-radius: 50%; background: #F0EEFF;
+  border: none; font-size: 18px; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+}
+.section-title { font-size: 15px; font-weight: 700; color: #6C63FF; margin-bottom: 10px; margin-top: 20px; }
+
+/* Day Picker */
+.day-picker { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+.day-circle {
+  width: 40px; height: 40px; border-radius: 50%; border: 2px solid #E8E4FF;
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; color: #666; cursor: pointer;
+  transition: all 0.2s;
+}
+.day-circle.selected { background: #6C63FF; color: #fff; border-color: #6C63FF; }
+
+/* Interest Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 8px 14px; border-radius: 20px; border: 2px solid #E8E4FF;
+  background: #fff; font-size: 13px; font-weight: 600; color: #555;
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.chip.selected { background: #6C63FF; color: #fff; border-color: #6C63FF; }
+.chip:hover { border-color: #6C63FF; }
+
+/* Results Screen */
+.results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.results-count { font-size: 14px; color: #888; }
+.result-card {
+  background: #fff; border-radius: 16px; padding: 16px; margin-bottom: 14px;
+  border-left: 5px solid #6C63FF; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  cursor: pointer; transition: transform 0.15s, box-shadow 0.15s;
+}
+.result-card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.card-emoji { font-size: 32px; margin-right: 12px; }
+.card-info { flex: 1; }
+.card-title { font-size: 16px; font-weight: 700; color: #2D2D2D; margin-bottom: 2px; }
+.card-provider { font-size: 13px; color: #888; margin-bottom: 4px; }
+.card-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+.card-badge {
+  display: inline-block; padding: 3px 8px; border-radius: 10px;
+  font-size: 11px; font-weight: 600;
+}
+.badge-age { background: #E8F5E9; color: #2E7D32; }
+.badge-price { background: #FFF3E0; color: #E65100; }
+.badge-distance { background: #E3F2FD; color: #1565C0; }
+.badge-time { background: #FCE4EC; color: #AD1457; }
+.badge-dropin { background: #FFEB3B; color: #333; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+
+/* Curriculum Tags */
+.curriculum-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+.curr-tag {
+  padding: 2px 7px; border-radius: 8px; font-size: 10px; font-weight: 600;
+}
+.curr-montessori { background: #E8F5E9; color: #1B5E20; }
+.curr-play { background: #FFF9C4; color: #F57F17; }
+.curr-stem { background: #E3F2FD; color: #0D47A1; }
+.curr-bilingual { background: #F3E5F5; color: #6A1B9A; }
+.curr-reggio { background: #FFCCBC; color: #BF360C; }
+.curr-nature { background: #C8E6C9; color: #1B5E20; }
+.curr-arts { background: #F8BBD0; color: #880E4F; }
+.curr-academic { background: #D1C4E9; color: #311B92; }
+.curr-sports { background: #B2EBF2; color: #006064; }
+
+/* Star Rating */
+.star-rating { color: #FFB300; font-size: 13px; font-weight: 600; }
+.star-rating .num { color: #666; margin-left: 2px; }
+
+/* Card Colors */
+.card-art { border-left-color: #FF6B6B; }
+.card-music { border-left-color: #FFB347; }
+.card-sports { border-left-color: #4ECDC4; }
+.card-stem { border-left-color: #45B7D1; }
+.card-nature { border-left-color: #96CEB4; }
+.card-dance { border-left-color: #DDA0DD; }
+.card-language { border-left-color: #F7DC6F; }
+.card-cooking { border-left-color: #FF8C69; }
+.card-daycare { border-left-color: #87CEEB; }
+.card-preschool { border-left-color: #98D8C8; }
+.card-camp { border-left-color: #F4A460; }
+.card-dropin { border-left-color: #FFD700; }
+
+/* Detail Screen */
+.detail-header { position: relative; text-align: center; padding: 20px 0; }
+.detail-emoji { font-size: 60px; margin-bottom: 12px; display: block; }
+.detail-title { font-size: 22px; font-weight: 800; }
+.detail-provider { font-size: 15px; color: #888; margin-top: 4px; }
+.detail-section { margin-top: 20px; }
+.detail-section h3 { font-size: 15px; color: #6C63FF; margin-bottom: 8px; }
+.detail-section p { font-size: 14px; color: #555; line-height: 1.6; }
+.detail-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.detail-badge { padding: 6px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+.detail-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+.detail-info-item { background: #F8F6FF; padding: 12px; border-radius: 12px; text-align: center; }
+.detail-info-item .label { font-size: 11px; color: #888; text-transform: uppercase; font-weight: 600; }
+.detail-info-item .value { font-size: 15px; font-weight: 700; color: #333; margin-top: 4px; }
+.btn-signup {
+  width: 100%; padding: 16px; background: #4CAF50; color: #fff;
+  border: none; border-radius: 14px; font-size: 17px; font-weight: 700;
+  cursor: pointer; margin-top: 24px;
+}
+.btn-signup:hover { background: #43A047; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 40px 20px; }
+.empty-state .emoji { font-size: 60px; margin-bottom: 16px; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #DDD; border-radius: 4px; }
+
+@media (max-width: 480px) {
+  .app { max-width: 100%; }
+  .screen { padding: 20px 16px; }
+}
+</style>
 </head>
 <body>
-<div id="app"></div>
+<div class="app" id="app">
+
+  <!-- SCREEN 1: Welcome -->
+  <div class="screen active" id="screen-welcome">
+    <div class="welcome-header">
+      <span class="mascot">🧒</span>
+      <h1>KidPath</h1>
+      <p>Find the perfect activities & care<br>for your little one in Greater Seattle! 🌟</p>
+    </div>
+    <div style="margin-top: 32px;">
+      <div class="form-group">
+        <label>👶 Child's Name</label>
+        <input type="text" id="childName" placeholder="e.g. Emma, Liam...">
+      </div>
+      <div class="form-group">
+        <label>🎂 Child's Age</label>
+        <select id="childAge">
+          <option value="">Select age...</option>
+          <option value="0">Under 1 year</option>
+          <option value="1">1 year old</option>
+          <option value="2">2 years old</option>
+          <option value="3">3 years old</option>
+          <option value="4">4 years old</option>
+          <option value="5">5 years old</option>
+          <option value="6">6 years old</option>
+          <option value="7">7 years old</option>
+          <option value="8">8 years old</option>
+          <option value="9">9 years old</option>
+          <option value="10">10 years old</option>
+          <option value="11">11 years old</option>
+          <option value="12">12 years old</option>
+        </select>
+      </div>
+      <button class="btn-primary" onclick="goToPreferences()">Let's Find Activities! 🚀</button>
+    </div>
+    <p style="text-align:center; margin-top:20px; font-size:12px; color:#aaa;">Greater Seattle Metro &bull; Bellevue &bull; Kirkland &bull; Sammamish &bull; Redmond</p>
+  </div>
+
+  <!-- SCREEN 2: Preferences -->
+  <div class="screen" id="screen-prefs">
+    <div class="prefs-header">
+      <button class="back-btn" onclick="goBack('screen-welcome')">←</button>
+      <div><h2 style="margin:0;">Preferences</h2><p class="subtitle" id="prefs-subtitle">Tell us what you're looking for!</p></div>
+    </div>
+
+    <div class="section-title">📅 Days Available</div>
+    <div class="day-picker" id="dayPicker">
+      <div class="day-circle" data-day="mon" onclick="toggleDay(this)">M</div>
+      <div class="day-circle" data-day="tue" onclick="toggleDay(this)">T</div>
+      <div class="day-circle" data-day="wed" onclick="toggleDay(this)">W</div>
+      <div class="day-circle" data-day="thu" onclick="toggleDay(this)">T</div>
+      <div class="day-circle" data-day="fri" onclick="toggleDay(this)">F</div>
+      <div class="day-circle" data-day="sat" onclick="toggleDay(this)">S</div>
+      <div class="day-circle" data-day="sun" onclick="toggleDay(this)">S</div>
+    </div>
+
+    <div class="section-title">⭐ Interests</div>
+    <div class="chips" id="interestChips">
+      <div class="chip" data-val="art" onclick="toggleChip(this)">🎨 Art</div>
+      <div class="chip" data-val="music" onclick="toggleChip(this)">🎵 Music</div>
+      <div class="chip" data-val="sports" onclick="toggleChip(this)">⚽ Sports</div>
+      <div class="chip" data-val="stem" onclick="toggleChip(this)">🔬 STEM</div>
+      <div class="chip" data-val="nature" onclick="toggleChip(this)">🌿 Nature</div>
+      <div class="chip" data-val="dance" onclick="toggleChip(this)">💃 Dance</div>
+      <div class="chip" data-val="language" onclick="toggleChip(this)">🗣️ Language</div>
+      <div class="chip" data-val="cooking" onclick="toggleChip(this)">🍳 Cooking</div>
+      <div class="chip" data-val="daycare" onclick="toggleChip(this)">🏠 Daycare</div>
+      <div class="chip" data-val="preschool" onclick="toggleChip(this)">📚 Preschool</div>
+      <div class="chip" data-val="camp" onclick="toggleChip(this)">🏕️ Camps</div>
+      <div class="chip" data-val="dropin" onclick="toggleChip(this)">⚡ Drop-in</div>
+    </div>
+
+    <div class="section-title">📖 Curriculum Style</div>
+    <div class="chips" id="curriculumChips">
+      <div class="chip" data-val="Montessori" onclick="toggleChip(this)">🧩 Montessori</div>
+      <div class="chip" data-val="Play-based" onclick="toggleChip(this)">🎈 Play-based</div>
+      <div class="chip" data-val="STEM" onclick="toggleChip(this)">🔧 STEM</div>
+      <div class="chip" data-val="Nature-based" onclick="toggleChip(this)">🌲 Nature-based</div>
+      <div class="chip" data-val="Reggio Emilia" onclick="toggleChip(this)">🎭 Reggio Emilia</div>
+      <div class="chip" data-val="Bilingual" onclick="toggleChip(this)">🌍 Bilingual</div>
+      <div class="chip" data-val="Arts" onclick="toggleChip(this)">🖌️ Arts</div>
+      <div class="chip" data-val="Academic" onclick="toggleChip(this)">📐 Academic</div>
+    </div>
+
+    <div class="section-title">💰 Price Range</div>
+    <div class="chips" id="priceChips">
+      <div class="chip" data-val="free" onclick="toggleChipSingle(this, 'priceChips')">Free</div>
+      <div class="chip" data-val="under50" onclick="toggleChipSingle(this, 'priceChips')">Under $50</div>
+      <div class="chip" data-val="under100" onclick="toggleChipSingle(this, 'priceChips')">Under $100</div>
+      <div class="chip" data-val="over100" onclick="toggleChipSingle(this, 'priceChips')">$100+</div>
+    </div>
+
+    <div class="section-title">🕐 Time of Day</div>
+    <div class="chips" id="timeChips">
+      <div class="chip" data-val="morning" onclick="toggleChipSingle(this, 'timeChips')">☀️ Morning</div>
+      <div class="chip" data-val="afternoon" onclick="toggleChipSingle(this, 'timeChips')">🌤️ Afternoon</div>
+      <div class="chip" data-val="fullday" onclick="toggleChipSingle(this, 'timeChips')">📅 Full Day</div>
+    </div>
+
+    <div class="section-title">📍 Area</div>
+    <div class="form-group" style="margin-top:0;">
+      <select id="areaSelect">
+        <option value="any">Any area</option>
+        <option value="bellevue">Bellevue</option>
+        <option value="kirkland">Kirkland</option>
+        <option value="redmond">Redmond</option>
+        <option value="sammamish">Sammamish</option>
+        <option value="seattle">Seattle</option>
+        <option value="issaquah">Issaquah</option>
+        <option value="woodinville">Woodinville</option>
+      </select>
+    </div>
+
+    <div class="section-title">🚗 Max Commute (when area is "Any")</div>
+    <div class="form-group" style="margin-top:0;">
+      <select id="commuteSelect">
+        <option value="5">5 miles</option>
+        <option value="10" selected>10 miles</option>
+        <option value="15">15 miles</option>
+        <option value="25">25 miles</option>
+        <option value="50">Any distance</option>
+      </select>
+    </div>
+
+    <button class="btn-primary" style="margin-top:24px;" onclick="showResults()">Find Activities! 🎯</button>
+  </div>
+
+  <!-- SCREEN 3: Results -->
+  <div class="screen" id="screen-results">
+    <div class="results-header">
+      <div>
+        <button class="back-btn" onclick="goBack('screen-prefs')" style="display:inline-flex;">←</button>
+        <span style="font-weight:700; font-size:18px; margin-left:8px;">Results</span>
+      </div>
+      <span class="results-count" id="resultsCount"></span>
+    </div>
+    <div id="resultsList"></div>
+  </div>
+
+  <!-- SCREEN 4: Detail -->
+  <div class="screen" id="screen-detail">
+    <div class="prefs-header">
+      <button class="back-btn" onclick="goBack('screen-results')">←</button>
+      <h2 style="margin:0; font-size:18px;">Activity Details</h2>
+    </div>
+    <div id="detailContent"></div>
+  </div>
+
+</div>
+
 <script>
-var ACTIVITIES = [
-    { id:'1', name:'My Gym Bellevue', provider:'My Gym', category:'Gymnastics', distance:3.0, ageRange:'0-5', price:75, days:1, description:'Structured play, songs, and physical activities. Builds coordination, strength, and social skills.', schedule:'Multiple days available', address:'Bellevue, WA', area:'bellevue', interests:['active','social','brave'], emoji:'🤸', url:'https://www.mygym.com/bellevue' },
-    { id:'2', name:'Sunshine Music Together', provider:'Sunshine Music', category:'Music', distance:2.0, ageRange:'0-5', price:95, days:1, description:'Award-winning music program. Songs, instruments, rhythm, and movement in relaxed playful settings.', schedule:'Multiple locations and times', address:'Various - Seattle Metro', area:'seattle', interests:['creative','social','calm'], emoji:'🎶', url:'https://www.sunshinemusictogether.com' },
-    { id:'3', name:'Heart Beats Music School', provider:'Heart Beats', category:'Music', distance:2.5, ageRange:'0-5', price:90, days:1, description:'Joyful play-based music for toddlers and caregivers. Singing, movement, and simple instruments.', schedule:'Summer 2026 classes', address:'Seattle, WA', area:'seattle', interests:['creative','social','calm'], emoji:'🥁', url:'https://www.heartbeatsmusicschool.com' },
-    { id:'4', name:'The Little Gym Bellevue-Redmond', provider:'The Little Gym', category:'Gymnastics', distance:4.0, ageRange:'0-5', price:85, days:1, description:'Progressive gymnastics with tumbling, balance, and coordination. Builds confidence through movement.', schedule:'Multiple days/times', address:'Bellevue-Redmond, WA', area:'redmond', interests:['active','brave','social'], emoji:'🏅', url:'https://www.thelittlegym.com/BellevueRedmondWA' },
-    { id:'5', name:'Seattle Gymnastics Preschool', provider:'Seattle Gymnastics', category:'Gymnastics', distance:3.5, ageRange:'3-5', price:150, days:2, description:'Full preschool combining gymnastics with art, science, singing, and outdoor play.', schedule:'Mon-Fri AM sessions', address:'Seattle, WA', area:'seattle', interests:['active','social','curious'], emoji:'⭐', url:'https://seattlegymnastics.com' },
-    { id:'6', name:'The Wriggle Yoga and Music', provider:'The Wriggle', category:'Wellness', distance:1.5, ageRange:'0-5', price:80, days:1, description:'Playful yoga, music, and mindful games for kids and caregivers.', schedule:'Weekly sessions', address:'Seattle, WA', area:'seattle', interests:['calm','active','creative'], emoji:'🧘', url:'https://www.thewriggle.com' },
-    { id:'7', name:'Nature Explorers Discovery Park', provider:'Seattle Parks', category:'Outdoors', distance:4.0, ageRange:'3-5', price:60, days:1, description:'Bug hunts, nature crafts, puddle jumping at Discovery Park. Rain or shine!', schedule:'Fridays 10 AM-12 PM', address:'Discovery Park, Seattle', area:'seattle', interests:['curious','active','brave'], emoji:'🦋', url:'https://www.seattle.gov/parks' },
-    { id:'8', name:'Seattle Parks Swim Lessons', provider:'Seattle Parks', category:'Swimming', distance:2.8, ageRange:'0-5', price:55, days:2, description:'Water safety and swim basics. Parent-child classes for babies, independent for ages 4-5.', schedule:'Mon/Wed or Tue/Thu', address:'Various city pools', area:'seattle', interests:['active','brave'], emoji:'🐠', url:'https://www.seattle.gov/parks' },
-    { id:'9', name:'Snapology STEAM Redmond', provider:'Snapology', category:'STEM', distance:5.0, ageRange:'3-5', price:120, days:1, description:'Hands-on STEAM with LEGO bricks and tech. Robotics, animation, and creative problem-solving!', schedule:'Saturdays 10-11 AM', address:'Redmond, WA', area:'redmond', interests:['curious','creative'], emoji:'🧱', url:'https://www.snapology.com/washington-redmond' },
-    { id:'10', name:'Bellevue College Parent Ed', provider:'Bellevue College', category:'Learning', distance:4.5, ageRange:'1-4', price:45, days:1, description:'Co-op toddler classes with puzzles, art, play-dough, dramatic play, and instructor guidance.', schedule:'Tue/Thu 9:30-11:30 AM', address:'Bellevue College, WA', area:'bellevue', interests:['social','curious','creative'], emoji:'🎪', url:'https://www.bellevuecollege.edu/parented' },
-    { id:'11', name:'Library Storytime', provider:'Seattle Public Library', category:'Learning', distance:1.0, ageRange:'0-5', price:0, days:1, description:'FREE interactive stories, songs, rhymes, and play. Great for language and socialization!', schedule:'Various days by branch', address:'Multiple branches', area:'seattle', interests:['calm','social','curious'], emoji:'📚', url:'https://www.spl.org' },
-    { id:'12', name:'ARC Preschool', provider:'ARC Seattle', category:'Learning', distance:2.0, ageRange:'3-5', price:130, days:3, description:'Licensed preschool with art, dramatic play, cooking, science, singing, and outdoor play.', schedule:'Mon/Wed/Fri 9 AM-12 PM', address:'Community centers, Seattle', area:'seattle', interests:['social','creative','curious'], emoji:'🌈', url:'https://arcseattle.org/programs/recreation-preschool' },
-    { id:'13', name:'Gymboree Play and Music', provider:'Gymboree', category:'Play', distance:3.0, ageRange:'0-5', price:70, days:1, description:'Physical, cognitive, and social development. Open gym, art labs, music, and sensory play.', schedule:'Multiple classes daily', address:'Seattle Metro', area:'seattle', interests:['active','social','creative'], emoji:'🎈', url:'https://www.gymboreeclasses.com' },
-    { id:'14', name:'Crawlers Sensory Play', provider:'ParentMap', category:'Play', distance:2.0, ageRange:'0-1', price:35, days:1, description:'Obstacle courses and sensory exploration for crawlers. Supports physical confidence!', schedule:'Weekday mornings', address:'Seattle, WA', area:'seattle', interests:['active','curious'], emoji:'🐛', url:'https://www.parentmap.com' },
-    { id:'15', name:'YMCA Early Education Redmond', provider:'Seattle YMCA', category:'Learning', distance:4.5, ageRange:'1-5', price:110, days:2, description:'Licensed early ed focused on learning, language, and social skills. Financial aid available.', schedule:'Mon-Fri flexible', address:'Redmond, WA', area:'redmond', interests:['social','curious','calm'], emoji:'🌟', url:'https://www.seattleymca.org' },
-    { id:'16', name:'Kirkland Dance Academy Tots', provider:'Kirkland Dance', category:'Dance', distance:4.0, ageRange:'2-5', price:90, days:1, description:'Creative movement and pre-ballet for toddlers. Rhythm, coordination, and self-expression.', schedule:'Saturdays 9:30-10:15 AM', address:'Kirkland, WA', area:'kirkland', interests:['creative','active','social'], emoji:'💃', url:'https://www.kirklanddance.com' },
-    { id:'17', name:'Issaquah Parks Tiny Tots', provider:'Issaquah Parks', category:'Play', distance:7.0, ageRange:'1-4', price:50, days:1, description:'Structured play with crafts, music, outdoor play, and social time. Small class sizes.', schedule:'Tuesdays 10-11:30 AM', address:'Issaquah Community Center', area:'issaquah', interests:['social','creative','active'], emoji:'🎨', url:'https://www.issaquahwa.gov/parks' },
-    { id:'18', name:'Sammamish Nature Tots', provider:'Sammamish Parks', category:'Outdoors', distance:8.0, ageRange:'2-5', price:65, days:1, description:'Guided nature walks at Beaver Lake Park. Animal spotting, leaf collecting, sensory nature play.', schedule:'Wednesdays 10-11:30 AM', address:'Beaver Lake Park, Sammamish', area:'sammamish', interests:['curious','active','calm'], emoji:'🌿', url:'https://www.sammamish.us/parks' },
-    { id:'19', name:'Mercer Island Swim Club Tots', provider:'MI Community Ctr', category:'Swimming', distance:5.5, ageRange:'0-5', price:85, days:2, description:'Small group swim at Mary Wayte Pool. Parent-tot and preschool levels. Warm water pool.', schedule:'Tue/Thu 9:30-10 AM', address:'Mercer Island Community Ctr', area:'mercer_island', interests:['active','brave'], emoji:'🏊', url:'https://www.mercerisland.gov/parksrec' },
-    { id:'20', name:'Newcastle Soccer Sprouts', provider:'Newcastle Parks', category:'Sports', distance:4.5, ageRange:'3-5', price:70, days:1, description:'Intro soccer for preschoolers at Lake Boren Park. Fun, movement, and teamwork.', schedule:'Saturdays 10-10:45 AM', address:'Lake Boren Park, Newcastle', area:'newcastle', interests:['active','social','brave'], emoji:'⚽', url:'https://www.newcastlewa.gov/parks' },
-    { id:'21', name:'Kiddie Academy Kirkland', provider:'Kiddie Academy', category:'Learning', distance:4.2, ageRange:'0-5', price:140, days:3, description:'Life Essentials curriculum with character ed, STEM, fitness, and creative arts.', schedule:'Mon-Fri 7 AM-6 PM', address:'Kirkland, WA', area:'kirkland', interests:['social','curious','creative'], emoji:'🏫', url:'https://kiddieacademy.com/academies/kirkland' },
-    { id:'22', name:'Redmond Toddler Art Studio', provider:'Creative Kids', category:'Arts', distance:5.5, ageRange:'2-5', price:80, days:1, description:'Messy art play! Finger painting, clay, collage, and sensory art. Take-home projects weekly.', schedule:'Thursdays 10-11 AM', address:'Redmond Town Center area', area:'redmond', interests:['creative','calm','curious'], emoji:'🖌️', url:'https://www.redmond.gov/parks' },
-    { id:'23', name:'Bellevue Aquatic Center Tots', provider:'Bellevue Parks', category:'Swimming', distance:3.5, ageRange:'0-5', price:75, days:2, description:'Warm-water tot pool swim lessons. Water confidence, safety, and basic strokes.', schedule:'Mon/Wed 10-10:30 AM', address:'Bellevue Aquatic Center', area:'bellevue', interests:['active','brave'], emoji:'💦', url:'https://bellevuewa.gov/city-government/departments/parks' },
-    { id:'24', name:'Issaquah Music Garden', provider:'Music Garden', category:'Music', distance:7.5, ageRange:'0-4', price:85, days:1, description:'Kindermusik-inspired classes. Live guitar, singing, dancing, and percussion in a cozy studio.', schedule:'Fridays 9:30-10:15 AM', address:'Issaquah Highlands, WA', area:'issaquah', interests:['creative','calm','social'], emoji:'🎸', url:'https://www.musicgardenkids.com' },
-    { id:'25', name:'Sammamish Tiny Tumblers', provider:'Eastside Gymnastics', category:'Gymnastics', distance:8.5, ageRange:'2-5', price:95, days:1, description:'Mini obstacle courses, balance beams, and tumbling. Gross motor skills and confidence!', schedule:'Mondays 10-10:45 AM', address:'Sammamish, WA', area:'sammamish', interests:['active','brave','social'], emoji:'🌟', url:'https://www.eastsidegymnastics.com' },
-    { id:'26', name:'Kirkland Library Baby Bounce', provider:'KCLS', category:'Learning', distance:3.8, ageRange:'0-2', price:0, days:1, description:'FREE! Bouncy rhymes, songs, and board books for babies and toddlers. No registration needed.', schedule:'Wednesdays 10:30 AM', address:'Kirkland Library', area:'kirkland', interests:['calm','social'], emoji:'📖', url:'https://kcls.org/locations/kirkland-library' },
-    { id:'27', name:'Newcastle Little Explorers', provider:'Newcastle Parks', category:'Outdoors', distance:4.0, ageRange:'2-5', price:55, days:1, description:'Trail walks at Coal Creek Park. Creek splashing, rock collecting, and nature journaling.', schedule:'Tuesdays 9:30-11 AM', address:'Coal Creek Park, Newcastle', area:'newcastle', interests:['curious','active','calm'], emoji:'🪨', url:'https://www.newcastlewa.gov/parks' },
-    { id:'28', name:'Mercer Island Preschool Art', provider:'MI Parks and Rec', category:'Arts', distance:5.0, ageRange:'3-5', price:95, days:1, description:'Mixed media art: paint, clay, weaving, and printmaking. Inspired by famous artists!', schedule:'Thursdays 1-2 PM', address:'Mercer Island Community Ctr', area:'mercer_island', interests:['creative','calm','curious'], emoji:'🎭', url:'https://www.mercerisland.gov/parksrec' }
+// ==================== DATA ====================
+const activities = [
+  // --- EXISTING 28 ACTIVITIES ---
+  {
+    id: 1, name: "Little Brushes Art Studio", provider: "Bellevue Arts Center",
+    emoji: "🎨", category: "art", area: "bellevue",
+    ages: [3,4,5,6,7,8], price: 45, priceLabel: "$45/session",
+    time: "morning", days_available: ["mon","wed","fri"],
+    distance: 3.2, rating: 4.8,
+    curriculum: ["Reggio Emilia", "Arts"],
+    interests: ["art"],
+    description: "Creative painting, sculpting, and mixed media classes for young artists. Small class sizes with professional instructors.",
+    url: "https://www.bellevuearts.org/",
+    dropin: false, cardClass: "card-art"
+  },
+  {
+    id: 2, name: "Tiny Maestros Music", provider: "Kirkland Music Academy",
+    emoji: "🎵", category: "music", area: "kirkland",
+    ages: [2,3,4,5,6], price: 35, priceLabel: "$35/session",
+    time: "morning", days_available: ["tue","thu","sat"],
+    distance: 5.1, rating: 4.7,
+    curriculum: ["Play-based"],
+    interests: ["music"],
+    description: "Introduction to rhythm, melody, and instruments through playful group sessions. Suzuki-inspired approach for young learners.",
+    url: "https://www.kirklandmusicacademy.com/",
+    dropin: false, cardClass: "card-music"
+  },
+  {
+    id: 3, name: "Soccer Stars Pee Wee", provider: "Eastside FC",
+    emoji: "⚽", category: "sports", area: "bellevue",
+    ages: [3,4,5,6,7], price: 30, priceLabel: "$30/session",
+    time: "morning", days_available: ["sat","sun"],
+    distance: 2.8, rating: 4.6,
+    curriculum: ["Play-based", "Sports"],
+    interests: ["sports"],
+    description: "Non-competitive soccer fundamentals focusing on coordination, teamwork, and fun. Indoor and outdoor sessions available.",
+    url: "https://www.eastsidefc.org/",
+    dropin: false, cardClass: "card-sports"
+  },
+  {
+    id: 4, name: "Code Cubs Junior", provider: "Tech Tots Academy",
+    emoji: "💻", category: "stem", area: "redmond",
+    ages: [5,6,7,8,9,10], price: 65, priceLabel: "$65/session",
+    time: "afternoon", days_available: ["mon","wed","fri"],
+    distance: 7.3, rating: 4.9,
+    curriculum: ["STEM"],
+    interests: ["stem"],
+    description: "Screen-free coding concepts, robotics basics, and computational thinking through hands-on projects and games.",
+    url: "https://www.techtots.com/",
+    dropin: false, cardClass: "card-stem"
+  },
+  {
+    id: 5, name: "Forest Explorers", provider: "Nature Nurture NW",
+    emoji: "🌲", category: "nature", area: "issaquah",
+    ages: [4,5,6,7,8,9], price: 40, priceLabel: "$40/session",
+    time: "morning", days_available: ["tue","thu"],
+    distance: 9.5, rating: 4.8,
+    curriculum: ["Nature-based"],
+    interests: ["nature"],
+    description: "Outdoor adventure program exploring Pacific NW forests. Nature journaling, wildlife tracking, and environmental stewardship.",
+    url: "https://www.islandwoodschool.org/",
+    dropin: false, cardClass: "card-nature"
+  },
+  {
+    id: 6, name: "Ballet Blossoms", provider: "Pacific NW Ballet School",
+    emoji: "🩰", category: "dance", area: "bellevue",
+    ages: [3,4,5,6,7], price: 55, priceLabel: "$55/session",
+    time: "afternoon", days_available: ["mon","wed","sat"],
+    distance: 4.0, rating: 4.9,
+    curriculum: ["Arts"],
+    interests: ["dance"],
+    description: "Classical ballet foundations in a nurturing environment. Focus on musicality, grace, and self-expression.",
+    url: "https://www.pnb.org/school/",
+    dropin: false, cardClass: "card-dance"
+  },
+  {
+    id: 7, name: "Mandarin Sprouts", provider: "Eastside Language Center",
+    emoji: "🇨🇳", category: "language", area: "bellevue",
+    ages: [3,4,5,6,7,8], price: 50, priceLabel: "$50/session",
+    time: "afternoon", days_available: ["tue","thu"],
+    distance: 3.5, rating: 4.7,
+    curriculum: ["Bilingual", "Play-based"],
+    interests: ["language"],
+    description: "Immersive Mandarin Chinese through songs, stories, and cultural activities. Native-speaking instructors.",
+    url: "https://www.eastlc.com/",
+    dropin: false, cardClass: "card-language"
+  },
+  {
+    id: 8, name: "Little Chefs Kitchen", provider: "Taste Buds Academy",
+    emoji: "👨‍🍳", category: "cooking", area: "kirkland",
+    ages: [5,6,7,8,9,10], price: 55, priceLabel: "$55/session",
+    time: "afternoon", days_available: ["wed","sat"],
+    distance: 5.8, rating: 4.6,
+    curriculum: ["Play-based", "STEM"],
+    interests: ["cooking"],
+    description: "Kid-friendly cooking classes exploring world cuisines. Learn kitchen safety, nutrition, and create delicious dishes!",
+    url: "https://www.tastebudskitchen.com/",
+    dropin: false, cardClass: "card-cooking"
+  },
+  {
+    id: 9, name: "Swim Sprouts", provider: "Goldfish Swim School",
+    emoji: "🏊", category: "sports", area: "bellevue",
+    ages: [1,2,3,4,5,6,7,8], price: 40, priceLabel: "$40/session",
+    time: "morning", days_available: ["mon","tue","wed","thu","fri","sat"],
+    distance: 2.5, rating: 4.8,
+    curriculum: ["Play-based", "Sports"],
+    interests: ["sports"],
+    description: "Year-round swim lessons in a warm, kid-friendly pool. Science-based curriculum from water safety to stroke development.",
+    url: "https://www.goldfishswimschool.com/bellevue/",
+    dropin: true, cardClass: "card-sports"
+  },
+  {
+    id: 10, name: "Robotics Rangers", provider: "STEM Learning Lab",
+    emoji: "🤖", category: "stem", area: "redmond",
+    ages: [6,7,8,9,10,11,12], price: 75, priceLabel: "$75/session",
+    time: "afternoon", days_available: ["mon","wed","sat"],
+    distance: 8.0, rating: 4.7,
+    curriculum: ["STEM"],
+    interests: ["stem"],
+    description: "Build and program robots using LEGO Mindstorms and Arduino. Competitions and collaborative projects.",
+    url: "https://www.thecoderschool.com/locations/redmond/",
+    dropin: false, cardClass: "card-stem"
+  },
+  {
+    id: 11, name: "Gymnastics Guppies", provider: "Eastside Gymnastics",
+    emoji: "🤸", category: "sports", area: "kirkland",
+    ages: [2,3,4,5,6,7], price: 35, priceLabel: "$35/session",
+    time: "morning", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 5.0, rating: 4.5,
+    curriculum: ["Play-based", "Sports"],
+    interests: ["sports","dance"],
+    description: "Tumbling, balance beam, and coordination exercises in a padded, safe environment. Parent-tot classes available for ages 2-3.",
+    url: "https://www.eastsidegymnastics.com/",
+    dropin: true, cardClass: "card-sports"
+  },
+  {
+    id: 12, name: "Garden Sprouts", provider: "Bellevue Botanical",
+    emoji: "🌻", category: "nature", area: "bellevue",
+    ages: [3,4,5,6,7,8], price: 25, priceLabel: "$25/session",
+    time: "morning", days_available: ["tue","thu","sat"],
+    distance: 3.8, rating: 4.6,
+    curriculum: ["Nature-based", "STEM"],
+    interests: ["nature","stem"],
+    description: "Hands-on gardening, composting, and plant science for curious young minds. Seasonal themes and harvest celebrations.",
+    url: "https://bellevuebotanical.org/",
+    dropin: false, cardClass: "card-nature"
+  },
+  {
+    id: 13, name: "Drama Llamas Theater", provider: "Youth Theater NW",
+    emoji: "🎭", category: "art", area: "bellevue",
+    ages: [5,6,7,8,9,10,11,12], price: 60, priceLabel: "$60/session",
+    time: "afternoon", days_available: ["tue","thu"],
+    distance: 4.2, rating: 4.8,
+    curriculum: ["Arts", "Play-based"],
+    interests: ["art","dance"],
+    description: "Creative drama, improvisation, and musical theater for expressive kids. End-of-session showcase performances.",
+    url: "https://www.youththeaternw.org/",
+    dropin: false, cardClass: "card-art"
+  },
+  {
+    id: 14, name: "Science Wizards Lab", provider: "Mad Science Eastside",
+    emoji: "🧪", category: "stem", area: "bellevue",
+    ages: [5,6,7,8,9,10], price: 45, priceLabel: "$45/session",
+    time: "morning", days_available: ["sat","sun"],
+    distance: 3.0, rating: 4.7,
+    curriculum: ["STEM", "Play-based"],
+    interests: ["stem"],
+    description: "Hands-on experiments in chemistry, physics, and biology. Each session features a take-home experiment kit.",
+    url: "https://www.madscience.org/",
+    dropin: true, cardClass: "card-stem"
+  },
+  {
+    id: 15, name: "Ukulele Juniors", provider: "School of Rock Bellevue",
+    emoji: "🎸", category: "music", area: "bellevue",
+    ages: [5,6,7,8,9,10,11,12], price: 50, priceLabel: "$50/session",
+    time: "afternoon", days_available: ["mon","wed","fri"],
+    distance: 3.3, rating: 4.5,
+    curriculum: ["Arts"],
+    interests: ["music"],
+    description: "Fun ukulele lessons progressing from simple chords to full songs. Group jam sessions and recitals.",
+    url: "https://www.schoolofrock.com/bellevue",
+    dropin: false, cardClass: "card-music"
+  },
+  {
+    id: 16, name: "Hip Hop Kidz", provider: "DanceMakers Seattle",
+    emoji: "🕺", category: "dance", area: "seattle",
+    ages: [6,7,8,9,10,11,12], price: 40, priceLabel: "$40/session",
+    time: "afternoon", days_available: ["tue","thu","sat"],
+    distance: 12.0, rating: 4.6,
+    curriculum: ["Arts"],
+    interests: ["dance","music"],
+    description: "Age-appropriate hip hop choreography building confidence, rhythm, and fitness. Showcase events quarterly.",
+    url: "https://www.dancemakersseattle.com/",
+    dropin: false, cardClass: "card-dance"
+  },
+  {
+    id: 17, name: "Spanish Fiesta Friends", provider: "Language Stars",
+    emoji: "🇪🇸", category: "language", area: "kirkland",
+    ages: [2,3,4,5,6,7], price: 45, priceLabel: "$45/session",
+    time: "morning", days_available: ["mon","wed","fri"],
+    distance: 5.5, rating: 4.7,
+    curriculum: ["Bilingual", "Play-based"],
+    interests: ["language"],
+    description: "Immersive Spanish through play, music, and storytelling. FunImmersion® method for natural language acquisition.",
+    url: "https://www.languagestars.com/",
+    dropin: false, cardClass: "card-language"
+  },
+  {
+    id: 18, name: "Pottery Pals", provider: "Clay Art Center",
+    emoji: "🏺", category: "art", area: "kirkland",
+    ages: [5,6,7,8,9,10,11,12], price: 50, priceLabel: "$50/session",
+    time: "afternoon", days_available: ["wed","sat"],
+    distance: 5.3, rating: 4.5,
+    curriculum: ["Arts"],
+    interests: ["art"],
+    description: "Hand-building and wheel-throwing pottery classes. Kids create functional art pieces to take home.",
+    url: "https://www.clayartcenter.net/",
+    dropin: true, cardClass: "card-art"
+  },
+  {
+    id: 19, name: "Tennis Tots", provider: "Bellevue Tennis Academy",
+    emoji: "🎾", category: "sports", area: "bellevue",
+    ages: [4,5,6,7,8], price: 35, priceLabel: "$35/session",
+    time: "morning", days_available: ["tue","thu","sat"],
+    distance: 3.1, rating: 4.4,
+    curriculum: ["Sports", "Play-based"],
+    interests: ["sports"],
+    description: "Red ball tennis program designed for small bodies. Focus on hand-eye coordination and movement skills.",
+    url: "https://www.bellevuetennis.com/",
+    dropin: false, cardClass: "card-sports"
+  },
+  {
+    id: 20, name: "Story Time Adventures", provider: "King County Library",
+    emoji: "📚", category: "language", area: "bellevue",
+    ages: [0,1,2,3,4,5], price: 0, priceLabel: "Free",
+    time: "morning", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 2.0, rating: 4.8,
+    curriculum: ["Play-based", "Academic"],
+    interests: ["language","art"],
+    description: "Interactive story time with songs, puppets, and crafts. Early literacy program by trained librarians.",
+    url: "https://kcls.org/",
+    dropin: true, cardClass: "card-language"
+  },
+  {
+    id: 21, name: "Karate Kids", provider: "Pacific Martial Arts",
+    emoji: "🥋", category: "sports", area: "redmond",
+    ages: [4,5,6,7,8,9,10,11,12], price: 45, priceLabel: "$45/session",
+    time: "afternoon", days_available: ["mon","wed","fri"],
+    distance: 7.8, rating: 4.6,
+    curriculum: ["Academic", "Sports"],
+    interests: ["sports"],
+    description: "Traditional karate building discipline, respect, and self-defense skills. Belt progression system.",
+    url: "https://www.pacificmartialarts.com/",
+    dropin: false, cardClass: "card-sports"
+  },
+  {
+    id: 22, name: "Baking Buddies", provider: "Sugar Plum Kitchen",
+    emoji: "🧁", category: "cooking", area: "bellevue",
+    ages: [4,5,6,7,8,9,10], price: 50, priceLabel: "$50/session",
+    time: "morning", days_available: ["sat","sun"],
+    distance: 3.6, rating: 4.7,
+    curriculum: ["Play-based", "STEM"],
+    interests: ["cooking"],
+    description: "Baking fundamentals from cookies to cakes. Kids learn measuring, mixing, and decorating skills.",
+    url: "https://www.sugarplumkitchen.com/",
+    dropin: true, cardClass: "card-cooking"
+  },
+  {
+    id: 23, name: "Nature Sketchers", provider: "Audubon Society",
+    emoji: "🦅", category: "nature", area: "kirkland",
+    ages: [6,7,8,9,10,11,12], price: 30, priceLabel: "$30/session",
+    time: "morning", days_available: ["sat"],
+    distance: 6.0, rating: 4.5,
+    curriculum: ["Nature-based", "Arts"],
+    interests: ["nature","art"],
+    description: "Combine nature walks with sketching and watercolor painting. Bird watching and field journaling techniques.",
+    url: "https://www.audubon.org/",
+    dropin: false, cardClass: "card-nature"
+  },
+  {
+    id: 24, name: "LEGO Engineering", provider: "Bricks & Beyond",
+    emoji: "🧱", category: "stem", area: "bellevue",
+    ages: [4,5,6,7,8,9], price: 40, priceLabel: "$40/session",
+    time: "afternoon", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 3.4, rating: 4.6,
+    curriculum: ["STEM", "Play-based"],
+    interests: ["stem"],
+    description: "Engineering concepts through LEGO building challenges. Bridges, vehicles, and architectural wonders.",
+    url: "https://www.bricksandbeyond.com/",
+    dropin: true, cardClass: "card-stem"
+  },
+  {
+    id: 25, name: "Yoga Butterflies", provider: "Kidding Around Yoga",
+    emoji: "🧘", category: "sports", area: "sammamish",
+    ages: [3,4,5,6,7,8], price: 25, priceLabel: "$25/session",
+    time: "morning", days_available: ["mon","wed","sat"],
+    distance: 10.0, rating: 4.7,
+    curriculum: ["Nature-based", "Play-based"],
+    interests: ["sports","nature"],
+    description: "Playful yoga with animal poses, breathing exercises, and mindfulness activities. Boosts flexibility and calm.",
+    url: "https://kiddingaroundyoga.com/",
+    dropin: true, cardClass: "card-sports"
+  },
+  {
+    id: 26, name: "French Petits", provider: "Alliance Française",
+    emoji: "🇫🇷", category: "language", area: "seattle",
+    ages: [3,4,5,6,7,8], price: 55, priceLabel: "$55/session",
+    time: "morning", days_available: ["tue","thu"],
+    distance: 11.5, rating: 4.8,
+    curriculum: ["Bilingual", "Arts"],
+    interests: ["language"],
+    description: "French immersion through art, cuisine, and cultural celebrations. Native French-speaking teachers.",
+    url: "https://www.afseattle.org/",
+    dropin: false, cardClass: "card-language"
+  },
+  {
+    id: 27, name: "Basketball Rookies", provider: "Bellevue Boys & Girls Club",
+    emoji: "🏀", category: "sports", area: "bellevue",
+    ages: [5,6,7,8,9,10,11,12], price: 20, priceLabel: "$20/session",
+    time: "afternoon", days_available: ["mon","wed","fri"],
+    distance: 2.9, rating: 4.4,
+    curriculum: ["Sports", "Play-based"],
+    interests: ["sports"],
+    description: "Fundamentals of basketball in a supportive team environment. Skills clinics and friendly scrimmages.",
+    url: "https://www.bgcbellevue.org/",
+    dropin: true, cardClass: "card-sports"
+  },
+  {
+    id: 28, name: "Watercolor Wonders", provider: "Gage Academy",
+    emoji: "🖼️", category: "art", area: "seattle",
+    ages: [7,8,9,10,11,12], price: 60, priceLabel: "$60/session",
+    time: "afternoon", days_available: ["sat"],
+    distance: 12.5, rating: 4.8,
+    curriculum: ["Arts"],
+    interests: ["art"],
+    description: "Watercolor techniques from washes to detailed painting. Student gallery exhibitions twice yearly.",
+    url: "https://www.gageacademy.org/",
+    dropin: false, cardClass: "card-art"
+  },
+
+  // --- NEW 14 ACTIVITIES ---
+  {
+    id: 29, name: "Adventure Kids Playcare", provider: "Adventure Kids Playcare",
+    emoji: "🎪", category: "dropin", area: "bellevue",
+    ages: [0,1,2,3,4,5,6,7,8,9,10,11,12], price: 18, priceLabel: "$18/hr",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri","sat","sun"],
+    distance: 3.0, rating: 4.7,
+    curriculum: ["Play-based"],
+    interests: ["dropin","daycare"],
+    description: "Flexible drop-in childcare with themed play areas, arts & crafts, and active play. No reservations needed. Open 7 days a week for ages 0-12.",
+    url: "https://www.adventurekidsplaycare.com/",
+    dropin: true, cardClass: "card-dropin"
+  },
+  {
+    id: 30, name: "Bright Horizons Bellevue", provider: "Bright Horizons",
+    emoji: "🌈", category: "daycare", area: "bellevue",
+    ages: [0,1,2,3,4,5], price: 110, priceLabel: "$110/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 2.8, rating: 4.6,
+    curriculum: ["Play-based", "Academic"],
+    interests: ["daycare","preschool"],
+    description: "Full-service early education and daycare with flexible scheduling year-round. Research-backed curriculum focusing on school readiness.",
+    url: "https://www.brighthorizons.com/",
+    dropin: false, cardClass: "card-daycare"
+  },
+  {
+    id: 31, name: "KinderCare Bellevue", provider: "KinderCare Learning Centers",
+    emoji: "🏫", category: "preschool", area: "bellevue",
+    ages: [0,1,2,3,4,5], price: 95, priceLabel: "$95/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 3.5, rating: 4.5,
+    curriculum: ["Academic", "Play-based"],
+    interests: ["daycare","preschool"],
+    description: "Nationally accredited childcare and preschool. Proprietary curriculum with STEM, literacy, and character development. Ages 6 weeks to 5 years.",
+    url: "https://www.kindercare.com/",
+    dropin: false, cardClass: "card-preschool"
+  },
+  {
+    id: 32, name: "Primrose School of West Bellevue", provider: "Primrose Schools",
+    emoji: "🌸", category: "preschool", area: "bellevue",
+    ages: [0,1,2,3,4,5], price: 105, priceLabel: "$105/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 4.1, rating: 4.7,
+    curriculum: ["Academic", "Play-based"],
+    interests: ["daycare","preschool"],
+    description: "Balanced Learning® curriculum combining purposeful play with nurturing guidance. Character development and STEM integrated throughout.",
+    url: "https://www.primroseschools.com/",
+    dropin: false, cardClass: "card-preschool"
+  },
+  {
+    id: 33, name: "Evergreen Academy Montessori", provider: "Evergreen Academy",
+    emoji: "🌿", category: "preschool", area: "kirkland",
+    ages: [1,2,3,4,5,6], price: 90, priceLabel: "$90/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 5.5, rating: 4.8,
+    curriculum: ["Montessori"],
+    interests: ["preschool"],
+    description: "Authentic Montessori toddler and preschool programs in a nurturing environment. Mixed-age classrooms, hands-on materials, and individualized learning paths.",
+    url: "https://www.evergreenacademy.com/",
+    dropin: false, cardClass: "card-preschool"
+  },
+  {
+    id: 34, name: "A Child's Journey Montessori", provider: "A Child's Journey",
+    emoji: "🦋", category: "preschool", area: "kirkland",
+    ages: [0,1,2,3,4,5], price: 85, priceLabel: "$85/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 5.8, rating: 4.6,
+    curriculum: ["Montessori", "Nature-based"],
+    interests: ["preschool","nature"],
+    description: "Montessori education from infancy through pre-K. Emphasis on independence, outdoor exploration, and natural materials. Garden and nature program included.",
+    url: "https://achildsjourney.com/",
+    dropin: false, cardClass: "card-preschool"
+  },
+  {
+    id: 35, name: "Kirkland Preschool Programs", provider: "Kirkland Preschool",
+    emoji: "🎨", category: "preschool", area: "kirkland",
+    ages: [2,3,4,5], price: 40, priceLabel: "$40/session",
+    time: "morning", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 5.2, rating: 4.5,
+    curriculum: ["Reggio Emilia", "Arts"],
+    interests: ["preschool","art","music"],
+    description: "Creative preschool with rotating programs in art, music, science, and literacy. Project-based learning inspired by Reggio Emilia philosophy.",
+    url: "https://www.kirklandpreschool.org/",
+    dropin: false, cardClass: "card-preschool"
+  },
+  {
+    id: 36, name: "Sammamish Montessori School", provider: "Sammamish Montessori",
+    emoji: "🌱", category: "preschool", area: "sammamish",
+    ages: [1,2,3], price: 80, priceLabel: "$80/day",
+    time: "morning", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 10.2, rating: 4.7,
+    curriculum: ["Montessori"],
+    interests: ["preschool"],
+    description: "Toddler summer program for ages 18-36 months. AMI-certified Montessori guides, prepared environment, and gentle introduction to classroom community.",
+    url: "https://www.sammamishmontessori.com/",
+    dropin: false, cardClass: "card-preschool"
+  },
+  {
+    id: 37, name: "Sammamish Children's School Camps", provider: "Sammamish Children's School",
+    emoji: "🤸", category: "camp", area: "sammamish",
+    ages: [3,4,5,6,7,8], price: 75, priceLabel: "$75/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 10.5, rating: 4.6,
+    curriculum: ["Play-based", "Arts"],
+    interests: ["camp","dance","art","sports"],
+    description: "Summer camps featuring gymnastics, dance, art, and outdoor play. Weekly themed camps with small group sizes and experienced counselors.",
+    url: "https://www.sammamishchildrensschool.com/",
+    dropin: false, cardClass: "card-camp"
+  },
+  {
+    id: 38, name: "YMCA Sammamish Day Camp", provider: "YMCA of Greater Seattle",
+    emoji: "🏕️", category: "camp", area: "sammamish",
+    ages: [5,6,7,8,9,10,11,12], price: 70, priceLabel: "$70/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 10.0, rating: 4.5,
+    curriculum: ["Play-based", "Nature-based", "Sports"],
+    interests: ["camp","sports","nature"],
+    description: "Day camps with swimming, sports, arts & crafts, and nature exploration. Before and after care available. Financial assistance offered.",
+    url: "https://www.seattleymca.org/schedules/sammamish",
+    dropin: false, cardClass: "card-camp"
+  },
+  {
+    id: 39, name: "YMCA East Day Camps", provider: "YMCA of Greater Seattle",
+    emoji: "⛺", category: "camp", area: "bellevue",
+    ages: [5,6,7,8,9,10,11,12], price: 65, priceLabel: "$65/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 4.0, rating: 4.5,
+    curriculum: ["Play-based", "Nature-based", "Sports"],
+    interests: ["camp","sports","nature"],
+    description: "Day camps across Bellevue, Coal Creek, and Sammamish locations. Swimming, field trips, team building, and outdoor adventure.",
+    url: "https://www.seattleymca.org/programs/camp",
+    dropin: false, cardClass: "card-camp"
+  },
+  {
+    id: 40, name: "Little Scholars Drop-in", provider: "Little Scholars",
+    emoji: "📖", category: "dropin", area: "seattle",
+    ages: [0,1,2,3,4,5,6,7,8,9,10,11,12], price: 20, priceLabel: "$20/hr",
+    time: "fullday", days_available: ["sat","sun"],
+    distance: 11.0, rating: 4.4,
+    curriculum: ["Play-based"],
+    interests: ["dropin","daycare"],
+    description: "Weekend drop-in care for ages 0-12. Structured play, reading corners, and creative activities. Perfect for parents needing flexible weekend care.",
+    url: "https://www.littlescholarsseattle.com/",
+    dropin: true, cardClass: "card-dropin"
+  },
+  {
+    id: 41, name: "KidSpark STEM Camps", provider: "KidSpark Education",
+    emoji: "⚡", category: "camp", area: "bellevue",
+    ages: [4,5,6,7,8,9,10], price: 80, priceLabel: "$80/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 3.8, rating: 4.7,
+    curriculum: ["STEM", "Play-based"],
+    interests: ["camp","stem"],
+    description: "Hands-on STEM camps with engineering challenges, coding, and maker projects. Multi-location across Greater Seattle. Weekly themed sessions.",
+    url: "https://www.kidsparkeducation.org/",
+    dropin: false, cardClass: "card-camp"
+  },
+  {
+    id: 42, name: "Bellevue College Early Learning", provider: "Bellevue College",
+    emoji: "🎓", category: "daycare", area: "bellevue",
+    ages: [1,2,3,4,5], price: 85, priceLabel: "$85/day",
+    time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
+    distance: 3.9, rating: 4.6,
+    curriculum: ["Academic", "Nature-based", "Reggio Emilia"],
+    interests: ["daycare","preschool","nature"],
+    description: "Full-day early learning center (7am-5:45pm). Reggio-inspired curriculum with outdoor classroom, garden program, and college student mentors.",
+    url: "https://www.bellevuecollege.edu/childcare/",
+    dropin: false, cardClass: "card-daycare"
+  }
 ];
 
-var state = { screen:'welcome', childName:'', childAge:'', interests:[], maxDays:2, commute:5, area:'any', results:[], selected:null, mascot:['🐻','🐰','🦊','🐸','🦄','🐼'][Math.floor(Math.random()*6)] };
+// ==================== APP STATE ====================
+let state = {
+  childName: '',
+  childAge: null,
+  selectedDays: [],
+  selectedInterests: [],
+  selectedCurriculum: [],
+  selectedPrice: null,
+  selectedTime: null,
+  selectedArea: 'any',
+  maxCommute: 10,
+  filteredResults: []
+};
 
-function setState(updates) { Object.assign(state, updates); render(); }
-
-function toggleInterest(id) {
-    var i = state.interests.indexOf(id);
-    if (i !== -1) { state.interests.splice(i, 1); } else { state.interests.push(id); }
-    render();
+// ==================== NAVIGATION ====================
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
 }
 
-function filterActivities() {
-    var age = parseInt(state.childAge) || 3;
-    return ACTIVITIES.filter(function(a) {
-        var parts = a.ageRange.split('-');
-        if (age < parseInt(parts[0]) || age > parseInt(parts[1])) return false;
-        if (state.area === 'any' && a.distance > state.commute) return false;
-        if (a.days > state.maxDays) return false;
-        if (state.area !== 'any' && a.area !== state.area) return false;
-        if (state.interests.length > 0) {
-            var match = false;
-            for (var i = 0; i < state.interests.length; i++) { if (a.interests.indexOf(state.interests[i]) !== -1) { match = true; break; } }
-            if (!match) return false;
-        }
-        return true;
-    }).sort(function(a, b) {
-        if (state.interests.length === 0) return a.distance - b.distance;
-        var sa = 0, sb = 0;
-        for (var i = 0; i < state.interests.length; i++) { if (a.interests.indexOf(state.interests[i]) !== -1) sa++; if (b.interests.indexOf(state.interests[i]) !== -1) sb++; }
-        return sb !== sa ? sb - sa : a.distance - b.distance;
-    });
+function goBack(screenId) {
+  showScreen(screenId);
 }
 
-function render() {
-    var app = document.getElementById('app');
-    if (state.screen === 'detail') { app.innerHTML = renderDetail(); }
-    else if (state.screen === 'results') { app.innerHTML = renderResults(); }
-    else if (state.screen === 'form') { app.innerHTML = renderForm(); }
-    else { app.innerHTML = renderWelcome(); }
+function goToPreferences() {
+  const name = document.getElementById('childName').value.trim();
+  const age = document.getElementById('childAge').value;
+  if (!name) { alert('Please enter your child\'s name! 😊'); return; }
+  if (!age && age !== '0') { alert('Please select your child\'s age! 🎂'); return; }
+  state.childName = name;
+  state.childAge = parseInt(age);
+  document.getElementById('prefs-subtitle').textContent = `Finding activities for ${name} (age ${age}) ✨`;
+  showScreen('screen-prefs');
 }
 
-function renderWelcome() {
-    return '<div class="hero"><div class="mascots">🦊 🐻 🦄</div><h1>KidPath</h1><p>Greater Seattle Metro Activities</p><div class="tag">Ages 0-5 | Personalized for your child</div></div>' +
-    '<div class="welcome"><div class="speech">Hi! I am ' + state.mascot + ' your activity buddy! Let me find awesome things for your kiddo!</div>' +
-    '<div class="label">👶 Child\'s name</div><input class="input" id="nameInput" placeholder="e.g., Emma, Liam, Aria..." value="' + state.childName + '">' +
-    '<div class="label">🎂 Child\'s age (0-5)</div><input class="input" id="ageInput" placeholder="e.g., 3" maxlength="1" value="' + state.childAge + '">' +
-    '<button class="btn btn-red" onclick="setState({childName:document.getElementById(\'nameInput\').value, childAge:document.getElementById(\'ageInput\').value, screen:\'form\'})">Let\'s Go! 🚀</button></div>' +
-    '<div class="cities"><strong>🗺️ Covering Greater Seattle Metro</strong>Seattle | Bellevue | Kirkland | Redmond | Issaquah | Sammamish | Mercer Island | Newcastle</div>';
+// ==================== CHIP & DAY TOGGLES ====================
+function toggleDay(el) {
+  el.classList.toggle('selected');
+  updateSelectedDays();
 }
 
-function renderForm() {
-    var interests = [
-        {id:'active',label:'Active & Energetic',icon:'🏃',color:'red'},
-        {id:'creative',label:'Creative & Artsy',icon:'🎨',color:'purple'},
-        {id:'curious',label:'Curious Explorer',icon:'🔭',color:'blue'},
-        {id:'social',label:'Social Butterfly',icon:'🦋',color:'pink'},
-        {id:'calm',label:'Calm & Mindful',icon:'🌸',color:'teal'},
-        {id:'brave',label:'Brave Adventurer',icon:'🦁',color:'amber'}
-    ];
-    var areas = [{id:'any',l:'🗺️ Anywhere in Greater Seattle Metro'},{id:'seattle',l:'🏙️ Seattle'},{id:'bellevue',l:'🌆 Bellevue'},{id:'kirkland',l:'⛵ Kirkland'},{id:'redmond',l:'💻 Redmond'},{id:'issaquah',l:'⛰️ Issaquah'},{id:'sammamish',l:'🌲 Sammamish'},{id:'mercer_island',l:'🏝️ Mercer Island'},{id:'newcastle',l:'🏡 Newcastle'}];
+function updateSelectedDays() {
+  state.selectedDays = [...document.querySelectorAll('.day-circle.selected')].map(el => el.dataset.day);
+}
 
-    var h = '<div class="form-header"><div class="mascots">' + state.mascot + '</div><h2>What does ' + (state.childName || 'your little one') + ' love?</h2></div>';
-    h += '<div class="form-section"><div class="label">🌈 Interests (pick all that fit!)</div><div class="chips">';
-    for (var i = 0; i < interests.length; i++) {
-        var on = state.interests.indexOf(interests[i].id) !== -1;
-        h += '<div class="chip ' + (on ? 'active-' + interests[i].color : '') + '" onclick="toggleInterest(\'' + interests[i].id + '\')">' + interests[i].icon + ' ' + interests[i].label + '</div>';
+function toggleChip(el) {
+  el.classList.toggle('selected');
+}
+
+function toggleChipSingle(el, groupId) {
+  const group = document.getElementById(groupId);
+  const wasSelected = el.classList.contains('selected');
+  group.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  if (!wasSelected) el.classList.add('selected');
+}
+
+// ==================== FILTERING & RESULTS ====================
+function showResults() {
+  // Gather selections
+  state.selectedInterests = [...document.querySelectorAll('#interestChips .chip.selected')].map(c => c.dataset.val);
+  state.selectedCurriculum = [...document.querySelectorAll('#curriculumChips .chip.selected')].map(c => c.dataset.val);
+  const priceChip = document.querySelector('#priceChips .chip.selected');
+  state.selectedPrice = priceChip ? priceChip.dataset.val : null;
+  const timeChip = document.querySelector('#timeChips .chip.selected');
+  state.selectedTime = timeChip ? timeChip.dataset.val : null;
+  state.selectedArea = document.getElementById('areaSelect').value;
+  state.maxCommute = parseInt(document.getElementById('commuteSelect').value);
+  updateSelectedDays();
+
+  let results = activities.filter(a => {
+    // Age filter
+    if (!a.ages.includes(state.childAge)) return false;
+
+    // Area filter (skip distance if specific area selected)
+    if (state.selectedArea !== 'any') {
+      if (a.area !== state.selectedArea) return false;
+    } else {
+      if (a.distance > state.maxCommute) return false;
     }
-    h += '</div></div>';
-    h += '<div class="form-section"><div class="label">📅 Days per week</div><div class="chips">';
-    [1,2,3].forEach(function(d) { h += '<div class="chip ' + (state.maxDays===d?'active-blue':'') + '" onclick="setState({maxDays:' + d + '})">' + d + (d===3?'+':'') + ' day' + (d>1?'s':'') + '</div>'; });
-    h += '</div></div>';
-    h += '<div class="form-section"><div class="label">🚗 Max commute</div><div class="chips">';
-    [3,5,10,15].forEach(function(d) { h += '<div class="chip ' + (state.commute===d?'active-teal':'') + '" onclick="setState({commute:' + d + '})">' + d + ' mi</div>'; });
-    h += '</div></div>';
-    h += '<div class="form-section"><div class="label">📍 Preferred area</div>';
-    for (var i = 0; i < areas.length; i++) { h += '<div class="area-opt ' + (state.area===areas[i].id?'active':'') + '" onclick="setState({area:\'' + areas[i].id + '\'})">' + areas[i].l + '</div>'; }
-    h += '</div>';
-    h += '<div style="padding:16px"><button class="btn btn-red" onclick="setState({results:filterActivities(),screen:\'results\'})">🔍 Find Adventures!</button></div>';
-    return h;
-}
 
-function renderResults() {
-    var colors = ['#FF6B6B','#A855F7','#3B82F6','#14B8A6','#F59E0B','#EC4899'];
-    var h = '<div class="back"><a onclick="setState({screen:\'form\'})">← Adjust Preferences</a></div>';
-    h += '<div class="result-banner"><span class="mascot">' + state.mascot + '</span><h3>' + state.results.length + ' adventures for ' + (state.childName || 'your little one') + '!</h3></div>';
-    if (state.results.length === 0) { h += '<div class="empty"><div class="emoji">🙈</div><p>No activities found!</p><p class="hint">Try "Anywhere" for area or increase commute distance.</p></div>'; }
-    for (var i = 0; i < state.results.length; i++) {
-        var a = state.results[i]; var c = colors[parseInt(a.id) % colors.length];
-        h += '<div class="card" style="border-left-color:' + c + '" onclick="setState({selected:ACTIVITIES.find(function(x){return x.id===\'' + a.id + '\'}),screen:\'detail\'})">';
-        h += '<div class="card-top"><span class="card-emoji">' + a.emoji + '</span><div style="flex:1"><div class="card-title">' + a.name + '</div><div class="card-sub">' + a.category + ' | ' + a.provider + '</div></div><span class="card-price" style="color:' + c + '">' + (a.price===0?'FREE!':'$'+a.price) + '</span></div>';
-        h += '<div class="card-info">📍 ' + a.distance + ' mi | 👶 Ages ' + a.ageRange + ' | 📅 ' + a.days + 'x/wk</div>';
-        h += '<div class="card-desc">' + a.description.substring(0,80) + '...</div></div>';
+    // Day filter
+    if (state.selectedDays.length > 0) {
+      const overlap = state.selectedDays.some(d => a.days_available.includes(d));
+      if (!overlap) return false;
     }
-    return h;
+
+    // Price filter
+    if (state.selectedPrice) {
+      if (state.selectedPrice === 'free' && a.price > 0) return false;
+      if (state.selectedPrice === 'under50' && a.price >= 50) return false;
+      if (state.selectedPrice === 'under100' && a.price >= 100) return false;
+      if (state.selectedPrice === 'over100' && a.price < 100) return false;
+    }
+
+    // Time filter
+    if (state.selectedTime) {
+      if (state.selectedTime === 'morning' && a.time !== 'morning') return false;
+      if (state.selectedTime === 'afternoon' && a.time !== 'afternoon') return false;
+      if (state.selectedTime === 'fullday' && a.time !== 'fullday') return false;
+    }
+
+    // Curriculum filter
+    if (state.selectedCurriculum.length > 0) {
+      const currMatch = state.selectedCurriculum.some(c => a.curriculum.includes(c));
+      if (!currMatch) return false;
+    }
+
+    // Interest filter
+    if (state.selectedInterests.length > 0) {
+      const intMatch = state.selectedInterests.some(i => a.interests.includes(i));
+      if (!intMatch) return false;
+    }
+
+    return true;
+  });
+
+  // Score and sort
+  results.forEach(a => {
+    let score = 0;
+    if (state.selectedInterests.length > 0) {
+      score += state.selectedInterests.filter(i => a.interests.includes(i)).length * 10;
+    }
+    if (state.selectedCurriculum.length > 0) {
+      score += state.selectedCurriculum.filter(c => a.curriculum.includes(c)).length * 5;
+    }
+    score += a.rating * 2;
+    score -= a.distance * 0.5;
+    a._score = score;
+  });
+
+  results.sort((a, b) => b._score - a._score);
+  state.filteredResults = results;
+
+  renderResults(results);
+  showScreen('screen-results');
 }
 
-function renderDetail() {
-    var a = state.selected;
-    var h = '<div class="back"><a onclick="setState({screen:\'results\'})">← Back to Results</a></div>';
-    h += '<div class="detail-head"><div class="emoji">' + a.emoji + '</div><h2>' + a.name + '</h2><div class="sub">' + a.provider + '</div><div class="badge">' + a.category + '</div></div>';
-    h += '<div class="info-row"><div class="info-box orange"><div class="icon">📍</div><div class="val">' + a.distance + ' mi</div></div><div class="info-box green"><div class="icon">👶</div><div class="val">' + a.ageRange + ' yrs</div></div><div class="info-box blue"><div class="icon">💰</div><div class="val">' + (a.price===0?'FREE!':'$'+a.price) + '</div></div></div>';
-    h += '<div class="section"><h3>🌟 About</h3><p>' + a.description + '</p></div>';
-    h += '<div class="section"><h3>📅 Schedule</h3><p>' + a.schedule + '</p><p>' + a.days + ' day(s) per week</p></div>';
-    h += '<div class="section"><h3>📍 Location</h3><p>' + a.address + '</p></div>';
-    h += '<div style="padding:16px"><button class="btn btn-green" onclick="window.open(\'' + a.url + '\',\'_blank\')">🎉 Visit Website to Sign Up!</button></div>';
-    return h;
+function renderResults(results) {
+  const container = document.getElementById('resultsList');
+  document.getElementById('resultsCount').textContent = `${results.length} found`;
+
+  if (results.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">🔍</div>
+        <h3>No matches found</h3>
+        <p style="margin-top:8px;">Try adjusting your filters or expanding your area.</p>
+        <button class="btn-secondary" onclick="goBack('screen-prefs')">Adjust Filters</button>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = results.map(a => {
+    const stars = '★'.repeat(Math.floor(a.rating)) + (a.rating % 1 >= 0.5 ? '½' : '');
+    const currTags = a.curriculum.map(c => {
+      const cls = 'curr-' + c.toLowerCase().replace(/[^a-z]/g, '').replace('playbased','play').replace('naturebased','nature').replace('reggioemilia','reggio');
+      return `<span class="curr-tag ${cls}">${c}</span>`;
+    }).join('');
+
+    return `
+      <div class="result-card ${a.cardClass}" onclick="showDetail(${a.id})">
+        <div class="card-top">
+          <span class="card-emoji">${a.emoji}</span>
+          <div class="card-info">
+            <div class="card-title">${a.name}</div>
+            <div class="card-provider">${a.provider}</div>
+            <div class="star-rating">${'★'.repeat(Math.floor(a.rating))}${a.rating % 1 >= 0.5 ? '☆' : ''} <span class="num">${a.rating}</span></div>
+          </div>
+        </div>
+        <div class="card-meta">
+          <span class="card-badge badge-age">Ages ${Math.min(...a.ages)}-${Math.max(...a.ages)}</span>
+          <span class="card-badge badge-price">${a.priceLabel}</span>
+          <span class="card-badge badge-distance">${a.distance} mi</span>
+          <span class="card-badge badge-time">${a.time === 'fullday' ? '📅 Full Day' : a.time === 'morning' ? '☀️ AM' : '🌤️ PM'}</span>
+          ${a.dropin ? '<span class="card-badge badge-dropin">⚡ Available Today</span>' : ''}
+        </div>
+        <div class="curriculum-tags">${currTags}</div>
+      </div>`;
+  }).join('');
 }
 
-render();
+// ==================== DETAIL SCREEN ====================
+function showDetail(id) {
+  const a = activities.find(x => x.id === id);
+  if (!a) return;
+
+  const daysMap = {mon:'Mon',tue:'Tue',wed:'Wed',thu:'Thu',fri:'Fri',sat:'Sat',sun:'Sun'};
+  const daysStr = a.days_available.map(d => daysMap[d]).join(', ');
+  const stars = '★'.repeat(Math.floor(a.rating)) + (a.rating % 1 >= 0.5 ? '☆' : '');
+  const currTags = a.curriculum.map(c => {
+    const cls = 'curr-' + c.toLowerCase().replace(/[^a-z]/g, '').replace('playbased','play').replace('naturebased','nature').replace('reggioemilia','reggio');
+    return `<span class="curr-tag ${cls}" style="padding:4px 10px;font-size:12px;">${c}</span>`;
+  }).join(' ');
+
+  document.getElementById('detailContent').innerHTML = `
+    <div class="detail-header">
+      <span class="detail-emoji">${a.emoji}</span>
+      <div class="detail-title">${a.name}</div>
+      <div class="detail-provider">${a.provider}</div>
+      <div class="star-rating" style="font-size:16px;margin-top:8px;">${stars} <span class="num">${a.rating}</span></div>
+      ${a.dropin ? '<div style="margin-top:8px;"><span class="card-badge badge-dropin" style="font-size:13px;padding:5px 12px;">⚡ Drop-in Friendly / Available Today</span></div>' : ''}
+    </div>
+
+    <div class="detail-section">
+      <h3>📝 About</h3>
+      <p>${a.description}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>📖 Curriculum</h3>
+      <div class="curriculum-tags" style="margin-top:4px;">${currTags}</div>
+    </div>
+
+    <div class="detail-info-grid">
+      <div class="detail-info-item">
+        <div class="label">Ages</div>
+        <div class="value">${Math.min(...a.ages)}-${Math.max(...a.ages)} yrs</div>
+      </div>
+      <div class="detail-info-item">
+        <div class="label">Price</div>
+        <div class="value">${a.priceLabel}</div>
+      </div>
+      <div class="detail-info-item">
+        <div class="label">Distance</div>
+        <div class="value">${a.distance} miles</div>
+      </div>
+      <div class="detail-info-item">
+        <div class="label">Time</div>
+        <div class="value">${a.time === 'fullday' ? 'Full Day' : a.time === 'morning' ? 'Morning' : 'Afternoon'}</div>
+      </div>
+    </div>
+
+    <div class="detail-section">
+      <h3>📅 Days Available</h3>
+      <p>${daysStr}</p>
+    </div>
+
+    <div class="detail-section">
+      <h3>📍 Area</h3>
+      <p>${a.area.charAt(0).toUpperCase() + a.area.slice(1)}, Greater Seattle</p>
+    </div>
+
+    <button class="btn-signup" onclick="window.open('${a.url}', '_blank')">
+      Sign Up / Learn More 🌟
+    </button>
+    <p style="text-align:center;margin-top:8px;font-size:12px;color:#888;">Opens ${a.provider} website</p>
+  `;
+
+  showScreen('screen-detail');
+}
 </script>
 </body>
 </html>
