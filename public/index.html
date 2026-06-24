@@ -298,7 +298,6 @@ p { color: #555; line-height: 1.5; }
         <option value="sammamish">Sammamish</option>
         <option value="seattle">Seattle</option>
         <option value="issaquah">Issaquah</option>
-        <option value="woodinville">Woodinville</option>
       </select>
     </div>
 
@@ -350,7 +349,7 @@ const activities = [
     time: "morning", days_available: ["mon","wed","fri"],
     distance: 3.2, rating: 4.8,
     curriculum: ["Reggio Emilia", "Arts"],
-    interests: ["art"],
+    interests: ["art","stem","creative"],
     description: "Creative painting, sculpting, and mixed media classes for young artists. Small class sizes with professional instructors.",
     url: "https://www.bellevuearts.org/",
     dropin: false, cardClass: "card-art"
@@ -362,7 +361,7 @@ const activities = [
     time: "morning", days_available: ["tue","thu","sat"],
     distance: 5.1, rating: 4.7,
     curriculum: ["Play-based"],
-    interests: ["music"],
+    interests: ["music","art","creative"],
     description: "Introduction to rhythm, melody, and instruments through playful group sessions. Suzuki-inspired approach for young learners.",
     url: "https://www.kirklandmusicacademy.com/",
     dropin: false, cardClass: "card-music"
@@ -374,7 +373,7 @@ const activities = [
     time: "morning", days_available: ["sat","sun"],
     distance: 2.8, rating: 4.6,
     curriculum: ["Play-based", "Sports"],
-    interests: ["sports"],
+    interests: ["sports","active","camp","dropin"],
     description: "Non-competitive soccer fundamentals focusing on coordination, teamwork, and fun. Indoor and outdoor sessions available.",
     url: "https://www.eastsidefc.org/",
     dropin: false, cardClass: "card-sports"
@@ -386,7 +385,7 @@ const activities = [
     time: "afternoon", days_available: ["mon","wed","fri"],
     distance: 7.3, rating: 4.9,
     curriculum: ["STEM"],
-    interests: ["stem"],
+    interests: ["stem","art","curious"],
     description: "Screen-free coding concepts, robotics basics, and computational thinking through hands-on projects and games.",
     url: "https://www.techtots.com/",
     dropin: false, cardClass: "card-stem"
@@ -398,7 +397,7 @@ const activities = [
     time: "morning", days_available: ["tue","thu"],
     distance: 9.5, rating: 4.8,
     curriculum: ["Nature-based"],
-    interests: ["nature"],
+    interests: ["nature","stem","art"],
     description: "Outdoor adventure program exploring Pacific NW forests. Nature journaling, wildlife tracking, and environmental stewardship.",
     url: "https://www.islandwoodschool.org/",
     dropin: false, cardClass: "card-nature"
@@ -410,7 +409,7 @@ const activities = [
     time: "afternoon", days_available: ["mon","wed","sat"],
     distance: 4.0, rating: 4.9,
     curriculum: ["Arts"],
-    interests: ["dance"],
+    interests: ["dance","music","sports"],
     description: "Classical ballet foundations in a nurturing environment. Focus on musicality, grace, and self-expression.",
     url: "https://www.pnb.org/school/",
     dropin: false, cardClass: "card-dance"
@@ -422,7 +421,7 @@ const activities = [
     time: "afternoon", days_available: ["tue","thu"],
     distance: 3.5, rating: 4.7,
     curriculum: ["Bilingual", "Play-based"],
-    interests: ["language"],
+    interests: ["language","art","music"],
     description: "Immersive Mandarin Chinese through songs, stories, and cultural activities. Native-speaking instructors.",
     url: "https://www.eastlc.com/",
     dropin: false, cardClass: "card-language"
@@ -434,7 +433,7 @@ const activities = [
     time: "afternoon", days_available: ["wed","sat"],
     distance: 5.8, rating: 4.6,
     curriculum: ["Play-based", "STEM"],
-    interests: ["cooking"],
+    interests: ["cooking","art","stem"],
     description: "Kid-friendly cooking classes exploring world cuisines. Learn kitchen safety, nutrition, and create delicious dishes!",
     url: "https://www.tastebudskitchen.com/",
     dropin: false, cardClass: "card-cooking"
@@ -446,7 +445,7 @@ const activities = [
     time: "morning", days_available: ["mon","tue","wed","thu","fri","sat"],
     distance: 2.5, rating: 4.8,
     curriculum: ["Play-based", "Sports"],
-    interests: ["sports"],
+    interests: ["sports","active","camp","dropin"],
     description: "Year-round swim lessons in a warm, kid-friendly pool. Science-based curriculum from water safety to stroke development.",
     url: "https://www.goldfishswimschool.com/bellevue/",
     dropin: true, cardClass: "card-sports"
@@ -458,7 +457,7 @@ const activities = [
     time: "afternoon", days_available: ["mon","wed","sat"],
     distance: 8.0, rating: 4.7,
     curriculum: ["STEM"],
-    interests: ["stem"],
+    interests: ["stem","art","curious"],
     description: "Build and program robots using LEGO Mindstorms and Arduino. Competitions and collaborative projects.",
     url: "https://www.thecoderschool.com/locations/redmond/",
     dropin: false, cardClass: "card-stem"
@@ -506,7 +505,7 @@ const activities = [
     time: "morning", days_available: ["sat","sun"],
     distance: 3.0, rating: 4.7,
     curriculum: ["STEM", "Play-based"],
-    interests: ["stem"],
+    interests: ["stem","art","curious"],
     description: "Hands-on experiments in chemistry, physics, and biology. Each session features a take-home experiment kit.",
     url: "https://www.madscience.org/",
     dropin: true, cardClass: "card-stem"
@@ -518,7 +517,7 @@ const activities = [
     time: "afternoon", days_available: ["mon","wed","fri"],
     distance: 3.3, rating: 4.5,
     curriculum: ["Arts"],
-    interests: ["music"],
+    interests: ["music","art","creative"],
     description: "Fun ukulele lessons progressing from simple chords to full songs. Group jam sessions and recitals.",
     url: "https://www.schoolofrock.com/bellevue",
     dropin: false, cardClass: "card-music"
@@ -542,7 +541,7 @@ const activities = [
     time: "morning", days_available: ["mon","wed","fri"],
     distance: 5.5, rating: 4.7,
     curriculum: ["Bilingual", "Play-based"],
-    interests: ["language"],
+    interests: ["language","art","music"],
     description: "Immersive Spanish through play, music, and storytelling. FunImmersion® method for natural language acquisition.",
     url: "https://www.languagestars.com/",
     dropin: false, cardClass: "card-language"
@@ -554,7 +553,7 @@ const activities = [
     time: "afternoon", days_available: ["wed","sat"],
     distance: 5.3, rating: 4.5,
     curriculum: ["Arts"],
-    interests: ["art"],
+    interests: ["art","stem","creative"],
     description: "Hand-building and wheel-throwing pottery classes. Kids create functional art pieces to take home.",
     url: "https://www.clayartcenter.net/",
     dropin: true, cardClass: "card-art"
@@ -566,7 +565,7 @@ const activities = [
     time: "morning", days_available: ["tue","thu","sat"],
     distance: 3.1, rating: 4.4,
     curriculum: ["Sports", "Play-based"],
-    interests: ["sports"],
+    interests: ["sports","active","camp","dropin"],
     description: "Red ball tennis program designed for small bodies. Focus on hand-eye coordination and movement skills.",
     url: "https://www.bellevuetennis.com/",
     dropin: false, cardClass: "card-sports"
@@ -590,7 +589,7 @@ const activities = [
     time: "afternoon", days_available: ["mon","wed","fri"],
     distance: 7.8, rating: 4.6,
     curriculum: ["Academic", "Sports"],
-    interests: ["sports"],
+    interests: ["sports","active","camp"],
     description: "Traditional karate building discipline, respect, and self-defense skills. Belt progression system.",
     url: "https://www.pacificmartialarts.com/",
     dropin: false, cardClass: "card-sports"
@@ -602,7 +601,7 @@ const activities = [
     time: "morning", days_available: ["sat","sun"],
     distance: 3.6, rating: 4.7,
     curriculum: ["Play-based", "STEM"],
-    interests: ["cooking"],
+    interests: ["cooking","art","stem"],
     description: "Baking fundamentals from cookies to cakes. Kids learn measuring, mixing, and decorating skills.",
     url: "https://www.sugarplumkitchen.com/",
     dropin: true, cardClass: "card-cooking"
@@ -626,7 +625,7 @@ const activities = [
     time: "afternoon", days_available: ["mon","tue","wed","thu","fri"],
     distance: 3.4, rating: 4.6,
     curriculum: ["STEM", "Play-based"],
-    interests: ["stem"],
+    interests: ["stem","art","curious"],
     description: "Engineering concepts through LEGO building challenges. Bridges, vehicles, and architectural wonders.",
     url: "https://www.bricksandbeyond.com/",
     dropin: true, cardClass: "card-stem"
@@ -650,7 +649,7 @@ const activities = [
     time: "morning", days_available: ["tue","thu"],
     distance: 11.5, rating: 4.8,
     curriculum: ["Bilingual", "Arts"],
-    interests: ["language"],
+    interests: ["language","art","music"],
     description: "French immersion through art, cuisine, and cultural celebrations. Native French-speaking teachers.",
     url: "https://www.afseattle.org/",
     dropin: false, cardClass: "card-language"
@@ -662,7 +661,7 @@ const activities = [
     time: "afternoon", days_available: ["mon","wed","fri"],
     distance: 2.9, rating: 4.4,
     curriculum: ["Sports", "Play-based"],
-    interests: ["sports"],
+    interests: ["sports","active","camp"],
     description: "Fundamentals of basketball in a supportive team environment. Skills clinics and friendly scrimmages.",
     url: "https://www.bgcbellevue.org/",
     dropin: true, cardClass: "card-sports"
@@ -674,7 +673,7 @@ const activities = [
     time: "afternoon", days_available: ["sat"],
     distance: 12.5, rating: 4.8,
     curriculum: ["Arts"],
-    interests: ["art"],
+    interests: ["art","stem","creative"],
     description: "Watercolor techniques from washes to detailed painting. Student gallery exhibitions twice yearly.",
     url: "https://www.gageacademy.org/",
     dropin: false, cardClass: "card-art"
@@ -736,7 +735,7 @@ const activities = [
     time: "fullday", days_available: ["mon","tue","wed","thu","fri"],
     distance: 5.5, rating: 4.8,
     curriculum: ["Montessori"],
-    interests: ["preschool"],
+    interests: ["preschool","art","music","stem","cooking","dropin"],
     description: "Authentic Montessori toddler and preschool programs in a nurturing environment. Mixed-age classrooms, hands-on materials, and individualized learning paths.",
     url: "https://www.evergreenacademy.com/",
     dropin: false, cardClass: "card-preschool"
@@ -772,7 +771,7 @@ const activities = [
     time: "morning", days_available: ["mon","tue","wed","thu","fri"],
     distance: 10.2, rating: 4.7,
     curriculum: ["Montessori"],
-    interests: ["preschool"],
+    interests: ["preschool","art","music","stem","cooking","dropin"],
     description: "Toddler summer program for ages 18-36 months. AMI-certified Montessori guides, prepared environment, and gentle introduction to classroom community.",
     url: "https://www.sammamishmontessori.com/",
     dropin: false, cardClass: "card-preschool"
@@ -985,13 +984,34 @@ function showResults() {
   results.sort((a, b) => b._score - a._score);
   state.filteredResults = results;
 
-  renderResults(results);
+  // FALLBACK: if 0 results, relax filters and show age+area matches
+  if (results.length === 0) {
+    let fallback = activities.filter(a => {
+      if (!a.ages.includes(state.childAge)) return false;
+      if (state.selectedArea !== 'any') {
+        if (a.area !== state.selectedArea) return false;
+      } else {
+        if (a.distance > state.maxCommute) return false;
+      }
+      return true;
+    });
+    fallback.sort((a, b) => b.rating - a.rating);
+    state.filteredResults = fallback;
+    state.fallbackUsed = true;
+    renderResults(fallback);
+  } else {
+    state.fallbackUsed = false;
+    renderResults(results);
+  }
   showScreen('screen-results');
 }
 
 function renderResults(results) {
   const container = document.getElementById('resultsList');
   document.getElementById('resultsCount').textContent = `${results.length} found`;
+  if (state.fallbackUsed) {
+    document.getElementById('resultsCount').textContent += ' — expanded search to show all age & area matches';
+  }
 
   if (results.length === 0) {
     container.innerHTML = `
