@@ -34,14 +34,14 @@ p { color: #555; line-height: 1.5; }
 .subtitle { color: #777; font-size: 14px; margin-top: 4px; }
 
 /* Welcome Screen */
-.welcome-header { text-align: center; padding-top: 40px; }
+
 .mascot { font-size: 80px; animation: bounce 2s infinite; display: block; margin-bottom: 16px; }
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-12px); }
 }
-.welcome-header h1 { color: #6C63FF; font-size: 36px; margin-bottom: 8px; }
-.welcome-header p { font-size: 16px; color: #666; margin-bottom: 32px; }
+
+
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; font-weight: 600; color: #444; margin-bottom: 8px; font-size: 14px; }
 .form-group input, .form-group select {
@@ -186,6 +186,42 @@ p { color: #555; line-height: 1.5; }
   .app { max-width: 100%; }
   .screen { padding: 20px 16px; }
 }
+
+    /* ===== ANIMATED WELCOME SCREEN ===== */
+    .floating-emojis { position: absolute; top: 0; left: 0; right: 0; height: 300px; overflow: hidden; pointer-events: none; z-index: 0; }
+    .float-emoji { position: absolute; font-size: 22px; top: -30px; animation: floatDown 6s infinite ease-in; opacity: 0.6; }
+    @keyframes floatDown { 0% { transform: translateY(-30px) rotate(0deg); opacity: 0; } 20% { opacity: 0.6; } 100% { transform: translateY(300px) rotate(360deg); opacity: 0; } }
+    
+    .welcome-hero { text-align: center; padding-top: 30px; position: relative; z-index: 1; background: linear-gradient(135deg, #6C63FF 0%, #A855F7 50%, #EC4899 100%); margin: -24px -20px 20px -20px; padding: 40px 20px 30px; border-radius: 0 0 40px 40px; }
+    .mascot-row { display: flex; justify-content: center; align-items: flex-end; margin-bottom: 12px; }
+    .mascot-bounce { font-size: 40px; animation: bounceChar 1.5s infinite ease-in-out; margin: 0 6px; }
+    .mascot-bounce.big { font-size: 56px; }
+    @keyframes bounceChar { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-15px) scale(1.1); } }
+    
+    .rainbow-title { font-size: 44px; font-weight: 900; color: #fff; text-shadow: 3px 3px 6px rgba(0,0,0,0.2); letter-spacing: -1px; margin-bottom: 4px; animation: titlePop 0.6s ease-out; }
+    @keyframes titlePop { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .tagline { font-size: 20px; color: #FFD93D; font-weight: 700; margin-bottom: 4px; animation: shimmer 2s infinite; }
+    @keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; text-shadow: 0 0 10px #FFD93D; } }
+    .subtitle-text { font-size: 14px; color: rgba(255,255,255,0.85); }
+    
+    .activity-icons-row { display: flex; justify-content: center; padding: 16px 0; overflow: hidden; }
+    .activity-icon { font-size: 28px; margin: 0 8px; animation: popIn 0.5s ease-out backwards, wiggle 3s infinite ease-in-out; }
+    @keyframes popIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes wiggle { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+    
+    .speech-bubble-welcome { display: flex; align-items: center; background: #fff; border-radius: 20px; padding: 14px 16px; margin: 0 0 20px 0; border: 3px solid #FFD93D; box-shadow: 0 4px 15px rgba(108,99,255,0.1); position: relative; z-index: 1; }
+    .speech-mascot { font-size: 36px; margin-right: 12px; animation: bounceChar 2s infinite; }
+    .speech-text { font-size: 14px; color: #444; line-height: 1.4; }
+    
+    .welcome-form { position: relative; z-index: 1; }
+    .btn-animated { animation: pulse 2s infinite; position: relative; overflow: hidden; }
+    .btn-animated::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%); animation: shine 3s infinite; }
+    @keyframes shine { 0% { transform: translateX(-100%) rotate(45deg); } 100% { transform: translateX(100%) rotate(45deg); } }
+    
+    .cities-footer { margin-top: 20px; padding: 12px; text-align: center; position: relative; z-index: 1; }
+    .cities-scroll { font-size: 11px; color: #888; animation: scrollText 15s linear infinite; white-space: nowrap; overflow: hidden; }
+    @keyframes scrollText { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
 </style>
 </head>
 <body>
@@ -193,42 +229,86 @@ p { color: #555; line-height: 1.5; }
 
   <!-- SCREEN 1: Welcome -->
   <div class="screen active" id="screen-welcome">
-    <div class="welcome-header">
-      <span class="mascot">🧒</span>
-      <h1>KidPath</h1>
-      <p>Find the perfect activities & care<br>for your little one in Greater Seattle! 🌟</p>
+    <!-- Floating background emojis -->
+    <div class="floating-emojis">
+      <span class="float-emoji" style="left:5%;animation-delay:0s;">⭐</span>
+      <span class="float-emoji" style="left:15%;animation-delay:1.5s;">🎨</span>
+      <span class="float-emoji" style="left:25%;animation-delay:0.5s;">🎵</span>
+      <span class="float-emoji" style="left:35%;animation-delay:2s;">🦋</span>
+      <span class="float-emoji" style="left:50%;animation-delay:1s;">🌈</span>
+      <span class="float-emoji" style="left:65%;animation-delay:0.3s;">🎈</span>
+      <span class="float-emoji" style="left:75%;animation-delay:1.8s;">🌟</span>
+      <span class="float-emoji" style="left:85%;animation-delay:0.7s;">🎪</span>
+      <span class="float-emoji" style="left:95%;animation-delay:2.2s;">🧸</span>
     </div>
-    <div style="margin-top: 32px;">
+    
+    <!-- Hero section with gradient -->
+    <div class="welcome-hero">
+      <div class="mascot-row">
+        <span class="mascot-bounce" style="animation-delay:0s;">🦊</span>
+        <span class="mascot-bounce big" style="animation-delay:0.3s;">🐻</span>
+        <span class="mascot-bounce" style="animation-delay:0.6s;">🦄</span>
+      </div>
+      <h1 class="rainbow-title">KidPath</h1>
+      <p class="tagline">Find their spark ✨</p>
+      <p class="subtitle-text">Amazing activities for little ones in Greater Seattle!</p>
+    </div>
+
+    <!-- Animated activity icons row -->
+    <div class="activity-icons-row">
+      <span class="activity-icon" style="animation-delay:0s;">⚽</span>
+      <span class="activity-icon" style="animation-delay:0.2s;">🎨</span>
+      <span class="activity-icon" style="animation-delay:0.4s;">🎵</span>
+      <span class="activity-icon" style="animation-delay:0.6s;">🔬</span>
+      <span class="activity-icon" style="animation-delay:0.8s;">💃</span>
+      <span class="activity-icon" style="animation-delay:1.0s;">🌲</span>
+      <span class="activity-icon" style="animation-delay:1.2s;">🏊</span>
+      <span class="activity-icon" style="animation-delay:1.4s;">🤸</span>
+    </div>
+
+    <!-- Speech bubble -->
+    <div class="speech-bubble-welcome">
+      <span class="speech-mascot">🐨</span>
+      <div class="speech-text">Hi there! I'm Koala! Tell me about your little one and I'll find the most amazing activities! 🎉</div>
+    </div>
+
+    <!-- Form -->
+    <div class="welcome-form">
       <div class="form-group">
         <label>👶 Child's Name</label>
-        <input type="text" id="childName" placeholder="e.g. Emma, Liam...">
+        <input type="text" id="childName" placeholder="e.g. Emma, Liam, Aria...">
       </div>
       <div class="form-group">
         <label>🎂 Child's Age</label>
         <select id="childAge">
           <option value="">Select age...</option>
-          <option value="0">Under 1 year</option>
-          <option value="1">1 year old</option>
-          <option value="2">2 years old</option>
-          <option value="3">3 years old</option>
-          <option value="4">4 years old</option>
-          <option value="5">5 years old</option>
-          <option value="6">6 years old</option>
-          <option value="7">7 years old</option>
-          <option value="8">8 years old</option>
-          <option value="9">9 years old</option>
-          <option value="10">10 years old</option>
-          <option value="11">11 years old</option>
-          <option value="12">12 years old</option>
+          <option value="0">Under 1 year 👶</option>
+          <option value="1">1 year old 🐣</option>
+          <option value="2">2 years old 🌱</option>
+          <option value="3">3 years old 🌻</option>
+          <option value="4">4 years old ⭐</option>
+          <option value="5">5 years old 🚀</option>
+          <option value="6">6 years old 🦄</option>
+          <option value="7">7 years old 🎯</option>
+          <option value="8">8 years old 🏆</option>
+          <option value="9">9 years old 💫</option>
+          <option value="10">10 years old 🎸</option>
+          <option value="11">11 years old 🔥</option>
+          <option value="12">12 years old 🌟</option>
         </select>
       </div>
-      <button class="btn-primary" onclick="goToPreferences()">Let's Find Activities! 🚀</button>
+      <button class="btn-primary btn-animated" onclick="goToPreferences()">
+        Let's Go! 🚀
+      </button>
     </div>
-    <p style="text-align:center; margin-top:20px; font-size:12px; color:#aaa;">Greater Seattle Metro &bull; Bellevue &bull; Kirkland &bull; Sammamish &bull; Redmond</p>
-  </div>
 
-  <!-- SCREEN 2: Preferences -->
-  <div class="screen" id="screen-prefs">
+    <!-- Footer cities with animation -->
+    <div class="cities-footer">
+      <div class="cities-scroll">
+        🏙️ Seattle &bull; 🌆 Bellevue &bull; ⛵ Kirkland &bull; 🌲 Sammamish &bull; 💻 Redmond &bull; ⛰️ Issaquah &bull; 🏝️ Mercer Island &bull; 🏡 Newcastle
+      </div>
+    </div>
+  </div><div class="screen" id="screen-prefs">
     <div class="prefs-header">
       <button class="back-btn" onclick="goBack('screen-welcome')">←</button>
       <div><h2 style="margin:0;">Preferences</h2><p class="subtitle" id="prefs-subtitle">Tell us what you're looking for!</p></div>
@@ -288,29 +368,6 @@ p { color: #555; line-height: 1.5; }
       <div class="chip" data-val="fullday" onclick="toggleChipSingle(this, 'timeChips')">📅 Full Day</div>
     </div>
 
-    <div class="section-title">📍 Area</div>
-    <div class="form-group" style="margin-top:0;">
-      <select id="areaSelect">
-        <option value="any">Any area</option>
-        <option value="bellevue">Bellevue</option>
-        <option value="kirkland">Kirkland</option>
-        <option value="redmond">Redmond</option>
-        <option value="sammamish">Sammamish</option>
-        <option value="seattle">Seattle</option>
-        <option value="issaquah">Issaquah</option>
-      </select>
-    </div>
-
-    <div class="section-title">🚗 Max Commute (when area is "Any")</div>
-    <div class="form-group" style="margin-top:0;">
-      <select id="commuteSelect">
-        <option value="5">5 miles</option>
-        <option value="10" selected>10 miles</option>
-        <option value="15">15 miles</option>
-        <option value="25">25 miles</option>
-        <option value="50">Any distance</option>
-      </select>
-    </div>
 
     <button class="btn-primary" style="margin-top:24px;" onclick="showResults()">Find Activities! 🎯</button>
   </div>
@@ -916,8 +973,8 @@ function showResults() {
   state.selectedPrice = priceChip ? priceChip.dataset.val : null;
   const timeChip = document.querySelector('#timeChips .chip.selected');
   state.selectedTime = timeChip ? timeChip.dataset.val : null;
-  state.selectedArea = document.getElementById('areaSelect').value;
-  state.maxCommute = parseInt(document.getElementById('commuteSelect').value);
+  state.selectedArea = 'any';
+  state.maxCommute = 999;
   updateSelectedDays();
 
   let results = activities.filter(a => {
@@ -988,11 +1045,7 @@ function showResults() {
   if (results.length === 0) {
     let fallback = activities.filter(a => {
       if (!a.ages.includes(state.childAge)) return false;
-      if (state.selectedArea !== 'any') {
-        if (a.area !== state.selectedArea) return false;
-      } else {
-        if (a.distance > state.maxCommute) return false;
-      }
+      // No area/commute filter - show all Seattle Metro activities
       return true;
     });
     fallback.sort((a, b) => b.rating - a.rating);
