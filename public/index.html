@@ -121,7 +121,7 @@ function filterActivities() {
     return ACTIVITIES.filter(function(a) {
         var parts = a.ageRange.split('-');
         if (age < parseInt(parts[0]) || age > parseInt(parts[1])) return false;
-        if (a.distance > state.commute) return false;
+        if (state.area === 'any' && a.distance > state.commute) return false;
         if (a.days > state.maxDays) return false;
         if (state.area !== 'any' && a.area !== state.area) return false;
         if (state.interests.length > 0) {
